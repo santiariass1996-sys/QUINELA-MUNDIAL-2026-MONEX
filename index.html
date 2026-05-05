@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0e1a">
+<title>Quiniela Mundial 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-0: #060912;
+    --bg-1: #0a0e1a;
+    --bg-2: #101729;
+    --bg-3: #1a2340;
+    --border: rgba(212, 175, 55, 0.18);
+    --border-strong: rgba(212, 175, 55, 0.4);
+    --gold: #d4af37;
+    --gold-bright: #f4d060;
+    --gold-dim: #9a7d27;
+    --text: #f3f4f6;
+    --text-dim: #9ca3af;
+    --text-muted: #6b7280;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --warn: #f59e0b;
+    --win-glow: rgba(34, 197, 94, 0.25);
+    --exact-glow: rgba(212, 175, 55, 0.35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg-0);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: contain;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(212, 175, 55, 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 40%, rgba(30, 64, 175, 0.12), transparent 60%),
+      linear-gradient(180deg, #060912 0%, #0a0e1a 50%, #060912 100%);
+    padding-bottom: 80px;
+  }
+
+  .loader-screen {
+    position: fixed; inset: 0; background: var(--bg-0);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999; flex-direction: column; gap: 20px;
+  }
+  .loader-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px; letter-spacing: 2px; color: var(--gold);
+  }
+  .loader-spinner {
+    width: 40px; height: 40px; border: 3px solid var(--border);
+    border-top-color: var(--gold); border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .login-card {
+    width: 100%; max-width: 440px;
+    background: linear-gradient(180deg, rgba(26, 35, 64, 0.6), rgba(10, 14, 26, 0.8));
+    border: 1px solid var(--border-strong);
+    border-radius: 20px; padding: 36px 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(212, 175, 55, 0.15);
+    position: relative; overflow: hidden;
+  }
+  .login-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .login-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px; letter-spacing: 2px; text-align: center;
+    color: var(--gold); line-height: 1;
+  }
+  .login-subtitle {
+    text-align: center; color: var(--text-dim); font-size: 13px;
+    margin-top: 6px; letter-spacing: 3px; text-transform: uppercase;
+  }
+  .login-trophy {
+    text-align: center; font-size: 48px; margin: 20px 0 10px;
+    filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.4));
+  }
+  .form-group { margin-top: 18px; }
+  .form-label {
+    display: block; font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%; padding: 14px 16px;
+    background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text); font-size: 15px;
+    font-family: 'Inter', sans-serif; transition: all 0.2s;
+  }
+  .form-input:focus {
+    outline: none; border-color: var(--gold);
+    background: rgba(0,0,0,0.5);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  }
+  .btn-primary {
+    width: 100%; padding: 15px; margin-top: 22px;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+    color: #0a0e1a; font-weight: 800; font-size: 15px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    border: none; border-radius: 10px; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .login-error {
+    background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5; padding: 10px 14px; border-radius: 8px;
+    font-size: 13px; margin-top: 14px; text-align: center;
+  }
+  .login-info {
+    font-size: 12px; color: var(--text-muted); text-align: center;
+    margin-top: 18px; line-height: 1.5;
+  }
+
+  .app { display: none; }
+  .app.active { display: block; }
+
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(6, 9, 18, 0.85);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+  }
+  .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px; color: var(--gold); letter-spacing: 1.5px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .brand-sub { color: var(--text); font-size: 16px; opacity: 0.85; }
+  .user-badge {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--text-dim);
+  }
+  .user-name {
+    color: var(--text); font-weight: 600;
+    max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .user-points {
+    background: rgba(212, 175, 55, 0.12);
+    color: var(--gold); border: 1px solid var(--border-strong);
+    padding: 3px 10px; border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+  }
+  .logout-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-dim); padding: 6px 10px; border-radius: 8px;
+    cursor: pointer; font-size: 12px; transition: all 0.2s;
+  }
+  .logout-btn:hover { color: var(--text); border-color: var(--border-strong); }
+
+  .main { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+  .nav-tabs {
+    display: flex; gap: 4px; padding: 4px;
+    background: var(--bg-2); border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 24px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .nav-tab {
+    flex: 1; min-width: max-content; padding: 10px 16px;
+    background: transparent; border: none; color: var(--text-dim);
+    font-size: 13px; font-weight: 600; letter-spacing: 0.3px;
+    border-radius: 8px; cursor: pointer; transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-tab.active {
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+    color: var(--gold); border: 1px solid var(--border-strong);
+  }
+
+  .page { display: none; animation: fadeIn 0.3s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .page-header { margin-bottom: 20px; }
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; color: var(--text); letter-spacing: 1px;
+  }
+  .page-subtitle { color: var(--text-dim); font-size: 13px; margin-top: 4px; }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px; margin-bottom: 24px;
+  }
+  .stat-card {
+    background: linear-gradient(180deg, rgba(26, 35, 64, 0.4), rgba(10, 14, 26, 0.6));
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; position: relative;
+  }
+  .stat-label {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600;
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif; font-size: 32px;
+    color: var(--gold); letter-spacing: 1px; margin-top: 2px; line-height: 1;
+  }
+  .stat-sub { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+
+  .section-title {
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin: 28px 0 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::before {
+    content: ''; width: 3px; height: 14px; background: var(--gold);
+    border-radius: 2px;
+  }
+
+  .match-card {
+    background: linear-gradient(180deg, rgba(26, 35, 64, 0.4), rgba(10, 14, 26, 0.7));
+    border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px 16px; margin-bottom: 10px;
+    position: relative; transition: all 0.2s;
+  }
+  .match-card:hover { border-color: var(--border-strong); }
+  .match-card.locked { opacity: 0.85; border-color: rgba(245, 158, 11, 0.3); }
+  .match-card.finished { border-color: rgba(212, 175, 55, 0.25); }
+
+  .match-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px; font-size: 11px; color: var(--text-muted);
+  }
+  .match-stage {
+    font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .match-status-badge {
+    padding: 2px 8px; border-radius: 6px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .status-upcoming { background: rgba(156, 163, 175, 0.15); color: var(--text-dim); }
+  .status-locked { background: rgba(245, 158, 11, 0.15); color: var(--warn); }
+  .status-finished { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+
+  .match-teams {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    gap: 12px; margin: 10px 0;
+  }
+  .team {
+    display: flex; align-items: center; gap: 10px;
+    min-width: 0;
+  }
+  .team.team-right { justify-content: flex-end; text-align: right; }
+  .team-flag { font-size: 28px; line-height: 1; flex-shrink: 0; }
+  .team-name {
+    font-weight: 700; font-size: 14px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .team-placeholder {
+    font-size: 12px; color: var(--text-dim); font-style: italic;
+  }
+  .vs { color: var(--text-muted); font-weight: 700; font-size: 14px; }
+
+  .prediction-row {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 10px; align-items: center; margin-top: 10px;
+    padding: 10px; background: rgba(0,0,0,0.3);
+    border-radius: 10px; border: 1px solid var(--border);
+  }
+  .score-input {
+    width: 100%; padding: 10px; font-size: 24px; font-weight: 800;
+    font-family: 'JetBrains Mono', monospace; text-align: center;
+    background: var(--bg-1); border: 1px solid var(--border);
+    color: var(--text); border-radius: 8px;
+    -moz-appearance: textfield;
+  }
+  .score-input::-webkit-outer-spin-button,
+  .score-input::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+  }
+  .score-input:focus {
+    outline: none; border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+  }
+  .score-input:disabled {
+    background: rgba(0,0,0,0.5); opacity: 0.7; cursor: not-allowed;
+  }
+  .score-dash { color: var(--gold); font-size: 24px; font-weight: 800; }
+
+  .match-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 10px; gap: 10px;
+  }
+  .match-info { font-size: 11px; color: var(--text-muted); }
+  .match-venue { font-size: 10px; color: var(--text-muted); opacity: 0.8; }
+  .countdown {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--gold); font-weight: 600;
+  }
+
+  .btn-save {
+    padding: 8px 14px; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+    color: #0a0e1a; border: none; border-radius: 8px;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-save:hover { filter: brightness(1.1); }
+  .btn-save:disabled {
+    opacity: 0.5; cursor: not-allowed;
+    background: var(--bg-3); color: var(--text-dim);
+  }
+  .btn-save.saved {
+    background: rgba(34, 197, 94, 0.15); color: var(--success);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .match-result {
+    margin-top: 10px; padding: 10px;
+    background: rgba(0,0,0,0.4); border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .match-result.exact {
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.12), rgba(212, 175, 55, 0.04));
+    border-color: var(--gold); box-shadow: 0 0 24px var(--exact-glow);
+  }
+  .match-result.winner {
+    background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 20px var(--win-glow);
+  }
+  .match-result.wrong {
+    background: rgba(239, 68, 68, 0.06); border-color: rgba(239, 68, 68, 0.2);
+  }
+  .result-row {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px;
+  }
+  .result-label { color: var(--text-dim); letter-spacing: 0.5px; }
+  .result-score {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700;
+    color: var(--text);
+  }
+  .result-points {
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px;
+    color: var(--gold); letter-spacing: 1px;
+  }
+  .result-points.zero { color: var(--text-muted); }
+
+  .leaderboard {
+    background: linear-gradient(180deg, rgba(26, 35, 64, 0.3), rgba(10, 14, 26, 0.5));
+    border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden;
+  }
+  .leaderboard-row {
+    display: grid; grid-template-columns: 50px 1fr auto auto;
+    align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .leaderboard-row:last-child { border-bottom: none; }
+  .leaderboard-row:hover { background: rgba(212, 175, 55, 0.03); }
+  .leaderboard-row.me {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.08), transparent);
+    border-left: 3px solid var(--gold);
+  }
+  .rank {
+    font-family: 'Bebas Neue', sans-serif; font-size: 24px;
+    color: var(--gold); letter-spacing: 1px; text-align: center;
+  }
+  .rank.top-1 { color: #fbbf24; font-size: 28px; }
+  .rank.top-2 { color: #d1d5db; font-size: 26px; }
+  .rank.top-3 { color: #cd7f32; font-size: 26px; }
+  .leader-info { min-width: 0; }
+  .leader-name {
+    font-weight: 700; color: var(--text); font-size: 14px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .leader-stats { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .leader-points {
+    font-family: 'Bebas Neue', sans-serif; font-size: 28px;
+    color: var(--gold); letter-spacing: 1px; text-align: right;
+  }
+  .leader-pts-label {
+    display: block; font-size: 10px; color: var(--text-muted);
+    letter-spacing: 1px; text-transform: uppercase;
+    font-family: 'Inter', sans-serif; font-weight: 600;
+  }
+
+  .group-filter {
+    display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .group-chip {
+    padding: 6px 12px; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--bg-2);
+    color: var(--text-dim); font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .group-chip.active {
+    background: var(--gold); color: #0a0e1a; border-color: var(--gold);
+  }
+
+  .bonus-card {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(26, 35, 64, 0.3));
+    border: 1px solid var(--border-strong); border-radius: 14px;
+    padding: 18px; margin-bottom: 14px;
+    position: relative; overflow: hidden;
+  }
+  .bonus-card::after {
+    content: ''; position: absolute; top: -50px; right: -50px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent 70%);
+    pointer-events: none;
+  }
+  .bonus-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px;
+    color: var(--gold); letter-spacing: 1px; line-height: 1;
+  }
+  .bonus-points {
+    font-size: 11px; color: var(--text-dim); margin-top: 2px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .bonus-input-row {
+    display: flex; gap: 10px; margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .bonus-input-row .form-input { flex: 1; min-width: 200px; }
+
+  .admin-match-card {
+    background: var(--bg-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; margin-bottom: 10px;
+  }
+  .admin-controls {
+    display: grid; grid-template-columns: 1fr 1fr auto auto;
+    gap: 8px; align-items: center; margin-top: 10px;
+  }
+  .admin-select {
+    padding: 8px; background: var(--bg-1); border: 1px solid var(--border);
+    color: var(--text); border-radius: 8px; font-size: 13px;
+  }
+  .btn-admin {
+    padding: 8px 14px; background: var(--bg-3);
+    color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer; font-size: 12px;
+    font-weight: 600; transition: all 0.2s;
+  }
+  .btn-admin:hover { border-color: var(--gold); }
+  .btn-admin.primary {
+    background: var(--gold); color: #0a0e1a; border-color: var(--gold);
+  }
+  .btn-admin.danger {
+    background: rgba(239, 68, 68, 0.1); color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  .admin-section {
+    background: linear-gradient(180deg, rgba(26, 35, 64, 0.3), rgba(10, 14, 26, 0.5));
+    border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px; margin-bottom: 16px;
+  }
+  .admin-section-title {
+    font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 12px;
+  }
+
+  .users-list { display: flex; flex-direction: column; gap: 6px; }
+  .user-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px; background: var(--bg-2);
+    border: 1px solid var(--border); border-radius: 10px;
+  }
+  .user-info-row { display: flex; flex-direction: column; gap: 2px; }
+  .user-row-name { font-weight: 600; font-size: 14px; }
+  .user-row-id {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--text-muted);
+  }
+  .user-row-meta {
+    font-size: 11px; color: var(--text-muted); margin-top: 2px;
+  }
+
+  .toast-container {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%); z-index: 1000;
+    display: flex; flex-direction: column; gap: 8px;
+    pointer-events: none;
+  }
+  .toast {
+    padding: 12px 18px; border-radius: 10px;
+    background: var(--bg-3); color: var(--text);
+    border: 1px solid var(--border-strong);
+    font-size: 13px; font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: toastIn 0.3s ease; pointer-events: auto;
+    max-width: 90vw;
+  }
+  .toast.success { border-color: var(--success); color: #86efac; }
+  .toast.error { border-color: var(--danger); color: #fca5a5; }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .empty {
+    text-align: center; padding: 48px 20px;
+    color: var(--text-dim);
+  }
+  .empty-icon { font-size: 48px; opacity: 0.4; margin-bottom: 12px; }
+  .empty-text { font-size: 14px; }
+
+  @media (max-width: 640px) {
+    .main { padding: 14px; }
+    .login-card { padding: 28px 20px; }
+    .login-title { font-size: 34px; }
+    .page-title { font-size: 26px; }
+    .stat-value { font-size: 28px; }
+    .admin-controls { grid-template-columns: 1fr 1fr; }
+    .leaderboard-row { grid-template-columns: 40px 1fr auto; }
+    .leader-stats-col { display: none; }
+    .brand-sub { display: none; }
+    .user-name { max-width: 80px; }
+    .team-flag { font-size: 24px; }
+    .team-name { font-size: 13px; }
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-1); }
+  ::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+  .fb-banner {
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #fcd34d; padding: 10px 14px; border-radius: 10px;
+    font-size: 12px; margin-bottom: 14px; line-height: 1.5;
+  }
+  .fb-banner code {
+    background: rgba(0,0,0,0.3); padding: 1px 5px; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<div id="loader" class="loader-screen">
+  <div class="loader-logo">QUINIELA 2026</div>
+  <div class="loader-spinner"></div>
+</div>
+
+<div id="loginScreen" class="login-screen" style="display:none;">
+  <div class="login-card">
+    <div class="login-trophy">🏆</div>
+    <div class="login-title">QUINIELA</div>
+    <div class="login-subtitle">Mundial 2026</div>
+
+    <div class="form-group">
+      <label class="form-label">User ID</label>
+      <input type="text" id="loginUsername" class="form-input" placeholder="e.g. SANTIAGO or JUAN_M" autocomplete="off" maxlength="20" autocapitalize="characters" onkeydown="if(event.key==='Enter')document.getElementById('loginAccessCode').focus()">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Access Code</label>
+      <input type="password" id="loginAccessCode" class="form-input" placeholder="Access code" autocomplete="off" onkeydown="if(event.key==='Enter')handleLogin()">
+    </div>
+
+    <button class="btn-primary" id="loginBtn" onclick="handleLogin()">Enter Quiniela</button>
+
+    <div id="loginError" class="login-error" style="display:none;"></div>
+
+    <div class="login-info">
+      First time? Pick any User ID — it'll be saved.<br>
+      Returning? Use the same User ID to get back to your picks.
+    </div>
+  </div>
+</div>
+
+<div id="app" class="app">
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">🏆 <span>QUINIELA</span> <span class="brand-sub">2026</span></div>
+      <div class="user-badge">
+        <span class="user-name" id="headerUsername">—</span>
+        <span class="user-points" id="headerPoints">0 pts</span>
+        <button class="logout-btn" onclick="handleLogout()">Exit</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-page="dashboard" onclick="navigate('dashboard')">Dashboard</button>
+      <button class="nav-tab" data-page="matches" onclick="navigate('matches')">Matches</button>
+      <button class="nav-tab" data-page="bonus" onclick="navigate('bonus')">Bonus</button>
+      <button class="nav-tab" data-page="leaderboard" onclick="navigate('leaderboard')">Leaderboard</button>
+      <button class="nav-tab" data-page="admin" id="adminTab" onclick="navigate('admin')" style="display:none;">Admin</button>
+    </nav>
+
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <h1 class="page-title">Welcome back</h1>
+        <p class="page-subtitle" id="dashSubtitle">Your predictions, at a glance</p>
+      </div>
+      <div id="dashContent"></div>
+    </div>
+
+    <div class="page" id="page-matches">
+      <div class="page-header">
+        <h1 class="page-title">All Matches</h1>
+        <p class="page-subtitle">104 matches. Predict them all.</p>
+      </div>
+      <div id="matchesContent"></div>
+    </div>
+
+    <div class="page" id="page-bonus">
+      <div class="page-header">
+        <h1 class="page-title">Bonus Predictions</h1>
+        <p class="page-subtitle">Extra points for the bold</p>
+      </div>
+      <div id="bonusContent"></div>
+    </div>
+
+    <div class="page" id="page-leaderboard">
+      <div class="page-header">
+        <h1 class="page-title">Leaderboard</h1>
+        <p class="page-subtitle" id="leaderSubtitle">Live standings</p>
+      </div>
+      <div id="leaderboardContent"></div>
+    </div>
+
+    <div class="page" id="page-admin">
+      <div class="page-header">
+        <h1 class="page-title">Admin Panel</h1>
+        <p class="page-subtitle">Tournament control</p>
+      </div>
+      <div id="adminContent"></div>
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// 2026 FIFA World Cup — Complete Match Schedule
+const TEAMS = {
+  MEX: { name: "Mexico", flag: "🇲🇽", group: "A" },
+  RSA: { name: "South Africa", flag: "🇿🇦", group: "A" },
+  KOR: { name: "South Korea", flag: "🇰🇷", group: "A" },
+  CZE: { name: "Czechia", flag: "🇨🇿", group: "A" },
+  CAN: { name: "Canada", flag: "🇨🇦", group: "B" },
+  BIH: { name: "Bosnia & Herzegovina", flag: "🇧🇦", group: "B" },
+  QAT: { name: "Qatar", flag: "🇶🇦", group: "B" },
+  SUI: { name: "Switzerland", flag: "🇨🇭", group: "B" },
+  BRA: { name: "Brazil", flag: "🇧🇷", group: "C" },
+  MAR: { name: "Morocco", flag: "🇲🇦", group: "C" },
+  HAI: { name: "Haiti", flag: "🇭🇹", group: "C" },
+  SCO: { name: "Scotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", group: "C" },
+  USA: { name: "United States", flag: "🇺🇸", group: "D" },
+  PAR: { name: "Paraguay", flag: "🇵🇾", group: "D" },
+  AUS: { name: "Australia", flag: "🇦🇺", group: "D" },
+  TUR: { name: "Türkiye", flag: "🇹🇷", group: "D" },
+  GER: { name: "Germany", flag: "🇩🇪", group: "E" },
+  CUW: { name: "Curaçao", flag: "🇨🇼", group: "E" },
+  CIV: { name: "Ivory Coast", flag: "🇨🇮", group: "E" },
+  ECU: { name: "Ecuador", flag: "🇪🇨", group: "E" },
+  NED: { name: "Netherlands", flag: "🇳🇱", group: "F" },
+  JPN: { name: "Japan", flag: "🇯🇵", group: "F" },
+  SWE: { name: "Sweden", flag: "🇸🇪", group: "F" },
+  TUN: { name: "Tunisia", flag: "🇹🇳", group: "F" },
+  BEL: { name: "Belgium", flag: "🇧🇪", group: "G" },
+  EGY: { name: "Egypt", flag: "🇪🇬", group: "G" },
+  IRN: { name: "Iran", flag: "🇮🇷", group: "G" },
+  NZL: { name: "New Zealand", flag: "🇳🇿", group: "G" },
+  ESP: { name: "Spain", flag: "🇪🇸", group: "H" },
+  CPV: { name: "Cape Verde", flag: "🇨🇻", group: "H" },
+  KSA: { name: "Saudi Arabia", flag: "🇸🇦", group: "H" },
+  URU: { name: "Uruguay", flag: "🇺🇾", group: "H" },
+  FRA: { name: "France", flag: "🇫🇷", group: "I" },
+  SEN: { name: "Senegal", flag: "🇸🇳", group: "I" },
+  IRQ: { name: "Iraq", flag: "🇮🇶", group: "I" },
+  NOR: { name: "Norway", flag: "🇳🇴", group: "I" },
+  ARG: { name: "Argentina", flag: "🇦🇷", group: "J" },
+  ALG: { name: "Algeria", flag: "🇩🇿", group: "J" },
+  AUT: { name: "Austria", flag: "🇦🇹", group: "J" },
+  JOR: { name: "Jordan", flag: "🇯🇴", group: "J" },
+  POR: { name: "Portugal", flag: "🇵🇹", group: "K" },
+  COD: { name: "DR Congo", flag: "🇨🇩", group: "K" },
+  UZB: { name: "Uzbekistan", flag: "🇺🇿", group: "K" },
+  COL: { name: "Colombia", flag: "🇨🇴", group: "K" },
+  ENG: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", group: "L" },
+  CRO: { name: "Croatia", flag: "🇭🇷", group: "L" },
+  GHA: { name: "Ghana", flag: "🇬🇭", group: "L" },
+  PAN: { name: "Panama", flag: "🇵🇦", group: "L" },
+};
+
+const gm = (id, stage, date, teamA, teamB, venue) => ({
+  id, stage, date, teamA, teamB, venue,
+  status: "upcoming", scoreA: null, scoreB: null,
+  group: TEAMS[teamA]?.group || null,
+});
+
+const km = (id, stage, date, labelA, labelB, venue) => ({
+  id, stage, date, teamA: null, teamB: null, labelA, labelB, venue,
+  status: "upcoming", scoreA: null, scoreB: null,
+});
+
+const MATCHES = [
+  gm(1,  "Group Stage", "2026-06-11T19:00Z", "MEX", "RSA", "Estadio Banorte, Mexico City"),
+  gm(2,  "Group Stage", "2026-06-12T02:00Z", "KOR", "CZE", "Estadio Akron, Guadalajara"),
+  gm(3,  "Group Stage", "2026-06-12T19:00Z", "CAN", "BIH", "BMO Field, Toronto"),
+  gm(4,  "Group Stage", "2026-06-13T01:00Z", "USA", "PAR", "SoFi Stadium, Los Angeles"),
+  gm(5,  "Group Stage", "2026-06-13T19:00Z", "QAT", "SUI", "Levi's Stadium, San Francisco Bay"),
+  gm(6,  "Group Stage", "2026-06-13T22:00Z", "BRA", "MAR", "MetLife Stadium, New York/New Jersey"),
+  gm(7,  "Group Stage", "2026-06-14T01:00Z", "HAI", "SCO", "Gillette Stadium, Boston"),
+  gm(8,  "Group Stage", "2026-06-14T04:00Z", "AUS", "TUR", "BC Place, Vancouver"),
+  gm(9,  "Group Stage", "2026-06-14T17:00Z", "GER", "CUW", "NRG Stadium, Houston"),
+  gm(10, "Group Stage", "2026-06-14T20:00Z", "NED", "JPN", "AT&T Stadium, Dallas"),
+  gm(11, "Group Stage", "2026-06-14T23:00Z", "CIV", "ECU", "Lincoln Financial Field, Philadelphia"),
+  gm(12, "Group Stage", "2026-06-15T02:00Z", "SWE", "TUN", "Estadio BBVA, Monterrey"),
+  gm(13, "Group Stage", "2026-06-15T17:00Z", "ESP", "CPV", "Mercedes-Benz Stadium, Atlanta"),
+  gm(14, "Group Stage", "2026-06-15T22:00Z", "BEL", "EGY", "Lumen Field, Seattle"),
+  gm(15, "Group Stage", "2026-06-15T22:00Z", "KSA", "URU", "Hard Rock Stadium, Miami"),
+  gm(16, "Group Stage", "2026-06-16T04:00Z", "IRN", "NZL", "SoFi Stadium, Los Angeles"),
+  gm(17, "Group Stage", "2026-06-16T19:00Z", "FRA", "SEN", "MetLife Stadium, New York/New Jersey"),
+  gm(18, "Group Stage", "2026-06-16T22:00Z", "IRQ", "NOR", "Gillette Stadium, Boston"),
+  gm(19, "Group Stage", "2026-06-17T01:00Z", "ARG", "ALG", "Arrowhead Stadium, Kansas City"),
+  gm(20, "Group Stage", "2026-06-17T04:00Z", "AUT", "JOR", "Levi's Stadium, San Francisco Bay"),
+  gm(21, "Group Stage", "2026-06-17T17:00Z", "POR", "COD", "NRG Stadium, Houston"),
+  gm(22, "Group Stage", "2026-06-17T20:00Z", "ENG", "CRO", "AT&T Stadium, Dallas"),
+  gm(23, "Group Stage", "2026-06-17T23:00Z", "GHA", "PAN", "BMO Field, Toronto"),
+  gm(24, "Group Stage", "2026-06-18T02:00Z", "UZB", "COL", "Estadio Banorte, Mexico City"),
+  gm(25, "Group Stage", "2026-06-18T16:00Z", "CZE", "RSA", "Mercedes-Benz Stadium, Atlanta"),
+  gm(26, "Group Stage", "2026-06-18T19:00Z", "SUI", "BIH", "SoFi Stadium, Los Angeles"),
+  gm(27, "Group Stage", "2026-06-18T22:00Z", "CAN", "QAT", "BC Place, Vancouver"),
+  gm(28, "Group Stage", "2026-06-19T03:00Z", "MEX", "KOR", "Estadio Akron, Guadalajara"),
+  gm(29, "Group Stage", "2026-06-19T19:00Z", "USA", "AUS", "Lumen Field, Seattle"),
+  gm(30, "Group Stage", "2026-06-19T22:00Z", "SCO", "MAR", "Gillette Stadium, Boston"),
+  gm(31, "Group Stage", "2026-06-20T01:00Z", "BRA", "HAI", "Lincoln Financial Field, Philadelphia"),
+  gm(32, "Group Stage", "2026-06-20T04:00Z", "TUR", "PAR", "Levi's Stadium, San Francisco Bay"),
+  gm(33, "Group Stage", "2026-06-20T17:00Z", "NED", "SWE", "NRG Stadium, Houston"),
+  gm(34, "Group Stage", "2026-06-20T20:00Z", "GER", "CIV", "BMO Field, Toronto"),
+  gm(35, "Group Stage", "2026-06-20T23:00Z", "ECU", "CUW", "Arrowhead Stadium, Kansas City"),
+  gm(36, "Group Stage", "2026-06-21T04:00Z", "TUN", "JPN", "Estadio BBVA, Monterrey"),
+  gm(37, "Group Stage", "2026-06-21T16:00Z", "ESP", "KSA", "Mercedes-Benz Stadium, Atlanta"),
+  gm(38, "Group Stage", "2026-06-21T19:00Z", "BEL", "IRN", "SoFi Stadium, Los Angeles"),
+  gm(39, "Group Stage", "2026-06-21T22:00Z", "URU", "CPV", "Hard Rock Stadium, Miami"),
+  gm(40, "Group Stage", "2026-06-22T01:00Z", "NZL", "EGY", "BC Place, Vancouver"),
+  gm(41, "Group Stage", "2026-06-22T17:00Z", "ARG", "AUT", "AT&T Stadium, Dallas"),
+  gm(42, "Group Stage", "2026-06-22T21:00Z", "FRA", "IRQ", "Lincoln Financial Field, Philadelphia"),
+  gm(43, "Group Stage", "2026-06-23T00:00Z", "NOR", "SEN", "MetLife Stadium, New York/New Jersey"),
+  gm(44, "Group Stage", "2026-06-23T03:00Z", "JOR", "ALG", "Levi's Stadium, San Francisco Bay"),
+  gm(45, "Group Stage", "2026-06-23T17:00Z", "POR", "UZB", "NRG Stadium, Houston"),
+  gm(46, "Group Stage", "2026-06-23T20:00Z", "ENG", "GHA", "Gillette Stadium, Boston"),
+  gm(47, "Group Stage", "2026-06-23T23:00Z", "PAN", "CRO", "BMO Field, Toronto"),
+  gm(48, "Group Stage", "2026-06-24T02:00Z", "COL", "COD", "Estadio Akron, Guadalajara"),
+  gm(49, "Group Stage", "2026-06-24T19:00Z", "SUI", "CAN", "BC Place, Vancouver"),
+  gm(50, "Group Stage", "2026-06-24T19:00Z", "BIH", "QAT", "Lumen Field, Seattle"),
+  gm(51, "Group Stage", "2026-06-24T22:00Z", "SCO", "BRA", "Hard Rock Stadium, Miami"),
+  gm(52, "Group Stage", "2026-06-24T22:00Z", "MAR", "HAI", "Mercedes-Benz Stadium, Atlanta"),
+  gm(53, "Group Stage", "2026-06-25T01:00Z", "CZE", "MEX", "Estadio Banorte, Mexico City"),
+  gm(54, "Group Stage", "2026-06-25T01:00Z", "RSA", "KOR", "Estadio BBVA, Monterrey"),
+  gm(55, "Group Stage", "2026-06-25T20:00Z", "ECU", "GER", "MetLife Stadium, New York/New Jersey"),
+  gm(56, "Group Stage", "2026-06-25T20:00Z", "CUW", "CIV", "Lincoln Financial Field, Philadelphia"),
+  gm(57, "Group Stage", "2026-06-25T23:00Z", "JPN", "SWE", "AT&T Stadium, Dallas"),
+  gm(58, "Group Stage", "2026-06-25T23:00Z", "TUN", "NED", "Arrowhead Stadium, Kansas City"),
+  gm(59, "Group Stage", "2026-06-26T02:00Z", "TUR", "USA", "SoFi Stadium, Los Angeles"),
+  gm(60, "Group Stage", "2026-06-26T02:00Z", "PAR", "AUS", "Levi's Stadium, San Francisco Bay"),
+  gm(61, "Group Stage", "2026-06-26T19:00Z", "NOR", "FRA", "Gillette Stadium, Boston"),
+  gm(62, "Group Stage", "2026-06-26T19:00Z", "SEN", "IRQ", "BMO Field, Toronto"),
+  gm(63, "Group Stage", "2026-06-27T00:00Z", "CPV", "KSA", "NRG Stadium, Houston"),
+  gm(64, "Group Stage", "2026-06-27T00:00Z", "URU", "ESP", "Estadio Akron, Guadalajara"),
+  gm(65, "Group Stage", "2026-06-27T03:00Z", "EGY", "IRN", "Lumen Field, Seattle"),
+  gm(66, "Group Stage", "2026-06-27T03:00Z", "NZL", "BEL", "BC Place, Vancouver"),
+  gm(67, "Group Stage", "2026-06-27T21:00Z", "PAN", "ENG", "MetLife Stadium, New York/New Jersey"),
+  gm(68, "Group Stage", "2026-06-27T21:00Z", "CRO", "GHA", "Lincoln Financial Field, Philadelphia"),
+  gm(69, "Group Stage", "2026-06-27T23:30Z", "COL", "POR", "Hard Rock Stadium, Miami"),
+  gm(70, "Group Stage", "2026-06-27T23:30Z", "COD", "UZB", "Mercedes-Benz Stadium, Atlanta"),
+  gm(71, "Group Stage", "2026-06-28T02:00Z", "ALG", "AUT", "Arrowhead Stadium, Kansas City"),
+  gm(72, "Group Stage", "2026-06-28T02:00Z", "JOR", "ARG", "AT&T Stadium, Dallas"),
+  km(73, "Round of 32", "2026-06-28T19:00Z", "Runner-up A", "Runner-up B", "SoFi Stadium, Los Angeles"),
+  km(74, "Round of 32", "2026-06-29T17:00Z", "Winner C", "Runner-up F", "NRG Stadium, Houston"),
+  km(75, "Round of 32", "2026-06-29T20:30Z", "Winner E", "3rd A/B/C/D/F", "Gillette Stadium, Boston"),
+  km(76, "Round of 32", "2026-06-30T01:00Z", "Winner F", "Runner-up C", "Estadio BBVA, Monterrey"),
+  km(77, "Round of 32", "2026-06-30T17:00Z", "Runner-up E", "Runner-up I", "AT&T Stadium, Dallas"),
+  km(78, "Round of 32", "2026-06-30T21:00Z", "Winner I", "3rd C/D/F/G/H", "MetLife Stadium, New York/New Jersey"),
+  km(79, "Round of 32", "2026-07-01T01:00Z", "Winner A", "3rd C/E/F/H/I", "Estadio Banorte, Mexico City"),
+  km(80, "Round of 32", "2026-07-01T16:00Z", "Winner L", "3rd E/H/I/J/K", "Mercedes-Benz Stadium, Atlanta"),
+  km(81, "Round of 32", "2026-07-01T20:00Z", "Winner G", "3rd A/E/H/I/J", "Lumen Field, Seattle"),
+  km(82, "Round of 32", "2026-07-02T00:00Z", "Winner D", "3rd B/E/F/I/J", "Levi's Stadium, San Francisco Bay"),
+  km(83, "Round of 32", "2026-07-02T19:00Z", "Winner H", "Runner-up J", "SoFi Stadium, Los Angeles"),
+  km(84, "Round of 32", "2026-07-02T23:00Z", "Runner-up K", "Runner-up L", "BMO Field, Toronto"),
+  km(85, "Round of 32", "2026-07-03T03:00Z", "Winner B", "3rd E/F/G/I/J", "BC Place, Vancouver"),
+  km(86, "Round of 32", "2026-07-03T18:00Z", "Runner-up D", "Runner-up G", "AT&T Stadium, Dallas"),
+  km(87, "Round of 32", "2026-07-03T22:00Z", "Winner J", "Runner-up H", "Hard Rock Stadium, Miami"),
+  km(88, "Round of 32", "2026-07-04T01:30Z", "Winner K", "3rd D/E/I/J/L", "Arrowhead Stadium, Kansas City"),
+  km(89, "Round of 16", "2026-07-04T17:00Z", "Winner R32-1", "Winner R32-2", "NRG Stadium, Houston"),
+  km(90, "Round of 16", "2026-07-04T21:00Z", "Winner R32-3", "Winner R32-4", "Lincoln Financial Field, Philadelphia"),
+  km(91, "Round of 16", "2026-07-05T20:00Z", "Winner R32-5", "Winner R32-6", "MetLife Stadium, New York/New Jersey"),
+  km(92, "Round of 16", "2026-07-06T00:00Z", "Winner R32-7", "Winner R32-8", "Estadio Banorte, Mexico City"),
+  km(93, "Round of 16", "2026-07-06T19:00Z", "Winner R32-9", "Winner R32-10", "AT&T Stadium, Dallas"),
+  km(94, "Round of 16", "2026-07-06T21:00Z", "Winner R32-11", "Winner R32-12", "Lumen Field, Seattle"),
+  km(95, "Round of 16", "2026-07-07T16:00Z", "Winner R32-13", "Winner R32-14", "Mercedes-Benz Stadium, Atlanta"),
+  km(96, "Round of 16", "2026-07-07T20:00Z", "Winner R32-15", "Winner R32-16", "BC Place, Vancouver"),
+  km(97,  "Quarterfinal", "2026-07-09T20:00Z", "Winner R16-1", "Winner R16-2", "Gillette Stadium, Boston"),
+  km(98,  "Quarterfinal", "2026-07-10T19:00Z", "Winner R16-3", "Winner R16-4", "SoFi Stadium, Los Angeles"),
+  km(99,  "Quarterfinal", "2026-07-11T21:00Z", "Winner R16-5", "Winner R16-6", "Hard Rock Stadium, Miami"),
+  km(100, "Quarterfinal", "2026-07-12T01:00Z", "Winner R16-7", "Winner R16-8", "Arrowhead Stadium, Kansas City"),
+  km(101, "Semifinal", "2026-07-14T19:00Z", "Winner QF1", "Winner QF2", "AT&T Stadium, Dallas"),
+  km(102, "Semifinal", "2026-07-15T19:00Z", "Winner QF3", "Winner QF4", "Mercedes-Benz Stadium, Atlanta"),
+  km(103, "Third Place", "2026-07-18T21:00Z", "Loser SF1", "Loser SF2", "Hard Rock Stadium, Miami"),
+  km(104, "Final", "2026-07-19T19:00Z", "Winner SF1", "Winner SF2", "MetLife Stadium, New York/New Jersey"),
+];
+
+window.TEAMS = TEAMS;
+window.MATCHES = MATCHES;
+
+const BONUS_CANDIDATES = [
+  { name: "Kylian Mbappé", team: "FRA" },
+  { name: "Harry Kane", team: "ENG" },
+  { name: "Erling Haaland", team: "NOR" },
+  { name: "Lionel Messi", team: "ARG" },
+  { name: "Lamine Yamal", team: "ESP" },
+  { name: "Vinicius Junior", team: "BRA" },
+  { name: "Cristiano Ronaldo", team: "POR" },
+  { name: "Lautaro Martínez", team: "ARG" },
+  { name: "Julián Álvarez", team: "ARG" },
+  { name: "Ousmane Dembélé", team: "FRA" },
+  { name: "Michael Olise", team: "FRA" },
+  { name: "Hugo Ekitike", team: "FRA" },
+  { name: "Désiré Doué", team: "FRA" },
+  { name: "Jude Bellingham", team: "ENG" },
+  { name: "Bukayo Saka", team: "ENG" },
+  { name: "Phil Foden", team: "ENG" },
+  { name: "Pedri", team: "ESP" },
+  { name: "Nico Williams", team: "ESP" },
+  { name: "Mikel Oyarzabal", team: "ESP" },
+  { name: "Ferran Torres", team: "ESP" },
+  { name: "Mikel Merino", team: "ESP" },
+  { name: "Rodri", team: "ESP" },
+  { name: "Nick Woltemade", team: "GER" },
+  { name: "Florian Wirtz", team: "GER" },
+  { name: "Jamal Musiala", team: "GER" },
+  { name: "Kai Havertz", team: "GER" },
+  { name: "Serge Gnabry", team: "GER" },
+  { name: "Rodrygo", team: "BRA" },
+  { name: "Raphinha", team: "BRA" },
+  { name: "Neymar", team: "BRA" },
+  { name: "Bruno Fernandes", team: "POR" },
+  { name: "Bernardo Silva", team: "POR" },
+  { name: "Rafael Leão", team: "POR" },
+  { name: "Memphis Depay", team: "NED" },
+  { name: "Cody Gakpo", team: "NED" },
+  { name: "Xavi Simons", team: "NED" },
+  { name: "Romelu Lukaku", team: "BEL" },
+  { name: "Kevin De Bruyne", team: "BEL" },
+  { name: "Jérémy Doku", team: "BEL" },
+  { name: "Christian Pulisic", team: "USA" },
+  { name: "Timothy Weah", team: "USA" },
+  { name: "Folarin Balogun", team: "USA" },
+  { name: "Raúl Jiménez", team: "MEX" },
+  { name: "Santiago Giménez", team: "MEX" },
+  { name: "Hirving Lozano", team: "MEX" },
+  { name: "Luka Modrić", team: "CRO" },
+  { name: "Mateo Kovačić", team: "CRO" },
+  { name: "Andrej Kramarić", team: "CRO" },
+  { name: "Takefusa Kubo", team: "JPN" },
+  { name: "Kaoru Mitoma", team: "JPN" },
+  { name: "Daichi Kamada", team: "JPN" },
+  { name: "Martin Ødegaard", team: "NOR" },
+  { name: "Alexander Sørloth", team: "NOR" },
+  { name: "Mohamed Salah", team: "EGY" },
+  { name: "Achraf Hakimi", team: "MAR" },
+  { name: "Hakim Ziyech", team: "MAR" },
+  { name: "Youssef En-Nesyri", team: "MAR" },
+  { name: "Sadio Mané", team: "SEN" },
+  { name: "Nicolás Jackson", team: "SEN" },
+  { name: "Arda Güler", team: "TUR" },
+  { name: "Kenan Yıldız", team: "TUR" },
+  { name: "Hakan Çalhanoğlu", team: "TUR" },
+  { name: "Viktor Gyökeres", team: "SWE" },
+  { name: "Alexander Isak", team: "SWE" },
+  { name: "Dejan Kulusevski", team: "SWE" },
+  { name: "Granit Xhaka", team: "SUI" },
+  { name: "Breel Embolo", team: "SUI" },
+  { name: "Luis Díaz", team: "COL" },
+  { name: "James Rodríguez", team: "COL" },
+  { name: "Jhon Durán", team: "COL" },
+  { name: "Federico Valverde", team: "URU" },
+  { name: "Darwin Núñez", team: "URU" },
+  { name: "Federico Viñas", team: "URU" },
+  { name: "Son Heung-min", team: "KOR" },
+  { name: "Lee Kang-in", team: "KOR" },
+  { name: "Salem Al-Dawsari", team: "KSA" },
+  { name: "Mehdi Taremi", team: "IRN" },
+  { name: "Sardar Azmoun", team: "IRN" },
+  { name: "Scott McTominay", team: "SCO" },
+  { name: "Che Adams", team: "SCO" },
+];
+
+window.BONUS_CANDIDATES = BONUS_CANDIDATES;
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
+  collection, getDocs, onSnapshot, query, where, writeBatch, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA81qdEwWEOcile7eKdNXkvkDJhJ8nCXe4",
+  authDomain: "quinela-mundial-2025-monex.firebaseapp.com",
+  projectId: "quinela-mundial-2025-monex",
+  storageBucket: "quinela-mundial-2025-monex.firebasestorage.app",
+  messagingSenderId: "32997439826",
+  appId: "1:32997439826:web:e89096839b9df526de228b"
+};
+
+// ============================================================================
+// ACCESS CONTROL
+// One shared access code for everyone. The User ID "ADMIN" is the admin
+// account — anyone who logs in with that ID + the code becomes admin.
+// ============================================================================
+const ACCESS_CODE = "MUNDIAL2026";   // shared by players + admin
+const ADMIN_ID    = "ADMIN";          // the one User ID that grants admin
+
+const POINTS_EXACT = 7;
+const POINTS_WINNER = 4;
+const POINTS_TOP_SCORER = 20;
+const POINTS_TOP_ASSISTS = 10;
+
+const state = {
+  user: null,
+  isAdmin: false,
+  matches: [],
+  predictions: {},
+  bonus: { topScorer: "", topAssists: "" },
+  officialBonus: { topScorer: "", topAssists: "", status: "upcoming" },
+  extraCandidates: [],
+  leaderboard: [],
+  allUsers: [],
+  currentGroupFilter: "ALL",
+  unsubs: [],
+};
+
+let db = null;
+let fbReady = false;
+
+try {
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  fbReady = firebaseConfig.projectId !== "YOUR_PROJECT_ID";
+} catch (e) {
+  console.error("Firebase init failed:", e);
+}
+
+const $ = (id) => document.getElementById(id);
+
+function toast(msg, kind = "info") {
+  const t = document.createElement("div");
+  t.className = `toast ${kind}`;
+  t.textContent = msg;
+  $("toastContainer").appendChild(t);
+  setTimeout(() => { t.style.opacity = "0"; t.style.transition = "opacity 0.3s"; }, 2500);
+  setTimeout(() => t.remove(), 2900);
+}
+
+function sanitize(s) {
+  return String(s || "").replace(/[<>]/g, "").trim();
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleString("en-US", {
+    weekday: "short", month: "short", day: "numeric",
+    hour: "numeric", minute: "2-digit"
+  });
+}
+
+function countdown(iso) {
+  const diff = new Date(iso).getTime() - Date.now();
+  if (isNaN(diff) || diff <= 0) return "Kickoff";
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  if (d > 0) return `${d}d ${h}h`;
+  if (h > 0) return `${h}h ${m}m`;
+  return `${m}m`;
+}
+
+function teamInfo(code, labelFallback) {
+  if (!code) return { name: labelFallback || "TBD", flag: "❓", group: null };
+  return window.TEAMS[code] || { name: code, flag: "❓", group: null };
+}
+
+// ============================================================================
+// DEDUPLICATION HELPER
+// Ensures a list of {id, ...} objects has no duplicate IDs.
+// Keeps the LAST occurrence (most recent data wins).
+// ============================================================================
+function dedupeById(arr) {
+  const map = new Map();
+  for (const item of arr) {
+    if (item && item.id) map.set(item.id, item);
+  }
+  return Array.from(map.values());
+}
+
+// ============================================================================
+// SCORING
+// ============================================================================
+function scorePrediction(prediction, match) {
+  if (!prediction || !match || match.status !== "finished") return null;
+  if (match.scoreA == null || match.scoreB == null) return null;
+  if (prediction.scoreA == null || prediction.scoreB == null) return null;
+
+  const pA = Number(prediction.scoreA);
+  const pB = Number(prediction.scoreB);
+  const aA = Number(match.scoreA);
+  const aB = Number(match.scoreB);
+
+  if (pA === aA && pB === aB) return { points: POINTS_EXACT, kind: "exact" };
+  const predOutcome = pA > pB ? "A" : pA < pB ? "B" : "D";
+  const actOutcome = aA > aB ? "A" : aA < aB ? "B" : "D";
+  if (predOutcome === actOutcome) return { points: POINTS_WINNER, kind: "winner" };
+  return { points: 0, kind: "wrong" };
+}
+
+function computeUserStats(predictions, matches) {
+  let total = 0, exacts = 0, winners = 0, wrongs = 0, finished = 0;
+  for (const m of matches) {
+    if (m.status !== "finished") continue;
+    finished++;
+    const pred = predictions[m.id];
+    if (!pred) { wrongs++; continue; }
+    const r = scorePrediction(pred, m);
+    if (!r) { wrongs++; continue; }
+    total += r.points;
+    if (r.kind === "exact") exacts++;
+    else if (r.kind === "winner") winners++;
+    else wrongs++;
+  }
+  const accuracy = finished > 0 ? Math.round(((exacts + winners) / finished) * 100) : 0;
+  return { total, exacts, winners, wrongs, finished, accuracy };
+}
+
+// ============================================================================
+// BONUS POINTS — FIXED
+// Award bonus points whenever the official answer is set (status === "finished")
+// AND the user's pick matches it. Uses NFC-normalized lowercase comparison so
+// accented names like "Mbappé" / "Ødegaard" / "Güler" don't false-mismatch.
+// ============================================================================
+function normalizeName(s) {
+  return String(s || "").trim().normalize("NFC").toLowerCase();
+}
+
+function computeBonusPoints(userBonus, officialBonus) {
+  if (!officialBonus) return { total: 0, breakdown: { scorer: 0, assists: 0 } };
+  if (officialBonus.status !== "finished") return { total: 0, breakdown: { scorer: 0, assists: 0 } };
+  if (!userBonus) return { total: 0, breakdown: { scorer: 0, assists: 0 } };
+
+  let scorerPts = 0, assistsPts = 0;
+
+  const userScorer = normalizeName(userBonus.topScorer);
+  const officialScorer = normalizeName(officialBonus.topScorer);
+  if (userScorer && officialScorer && userScorer === officialScorer) {
+    scorerPts = POINTS_TOP_SCORER;
+  }
+
+  const userAssists = normalizeName(userBonus.topAssists);
+  const officialAssists = normalizeName(officialBonus.topAssists);
+  if (userAssists && officialAssists && userAssists === officialAssists) {
+    assistsPts = POINTS_TOP_ASSISTS;
+  }
+
+  return {
+    total: scorerPts + assistsPts,
+    breakdown: { scorer: scorerPts, assists: assistsPts }
+  };
+}
+
+// Backward-compat helper that just returns the integer total.
+function bonusTotal(userBonus, officialBonus) {
+  return computeBonusPoints(userBonus, officialBonus).total;
+}
+
+// ============================================================================
+// MATCH DATA MERGING
+// ============================================================================
+async function loadMatches() {
+  const base = JSON.parse(JSON.stringify(window.MATCHES));
+  if (!fbReady || !db) {
+    state.matches = base;
+    return;
+  }
+  try {
+    const snap = await getDocs(collection(db, "matches"));
+    const overrides = {};
+    snap.forEach(d => overrides[d.id] = d.data());
+    state.matches = base.map(m => {
+      const o = overrides[String(m.id)];
+      if (!o) return m;
+      return {
+        ...m,
+        status: o.status || m.status,
+        scoreA: o.scoreA ?? m.scoreA,
+        scoreB: o.scoreB ?? m.scoreB,
+        teamA: o.teamA || m.teamA,
+        teamB: o.teamB || m.teamB,
+      };
+    });
+  } catch (e) {
+    console.error("Failed to load match overrides:", e);
+    state.matches = base;
+  }
+}
+
+// ============================================================================
+// AUTH
+// ============================================================================
+function showLogin() {
+  $("loader").style.display = "none";
+  $("loginScreen").style.display = "flex";
+  $("app").classList.remove("active");
+  const saved = localStorage.getItem("quiniela_user");
+  if (saved) {
+    try {
+      const u = JSON.parse(saved);
+      // Pre-fill the User ID field — username field is reused as the ID input
+      $("loginUsername").value = u.id || u.username || "";
+    } catch {}
+  }
+}
+
+// Normalize a User ID into a stable, deterministic form.
+// "Santiago Arias" → "SANTIAGO_ARIAS"  ·  "  juan m  " → "JUAN_M"  ·  "ADMIN" → "ADMIN"
+// Same input always produces the same ID — that's how returning users find their account.
+function normalizeUserId(input) {
+  return input
+    .normalize("NFD")                // strip accents
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase()
+    .replace(/[^A-Z0-9]+/g, "_")     // non-alphanum → underscore
+    .replace(/^_+|_+$/g, "")         // trim underscores
+    .slice(0, 20);
+}
+
+async function handleLogin() {
+  const rawId = sanitize($("loginUsername").value);
+  const code = $("loginAccessCode").value.trim();
+  const errEl = $("loginError");
+
+  const showError = (msg) => {
+    errEl.textContent = msg;
+    errEl.style.display = "block";
+  };
+  errEl.style.display = "none";
+
+  if (!rawId || rawId.length < 2) return showError("Please enter a User ID (at least 2 characters)");
+  if (code !== ACCESS_CODE) return showError("Invalid access code");
+
+  const userId = normalizeUserId(rawId);
+  if (!userId) return showError("User ID must contain at least one letter or number");
+
+  // Whoever logs in with the special ID becomes admin
+  const isAdminLogin = (userId === ADMIN_ID);
+
+  const btn = $("loginBtn");
+  btn.disabled = true; btn.textContent = "Loading...";
+
+  try {
+    if (!fbReady) {
+      state.user = { id: userId, username: userId, createdAt: Date.now() };
+      state.isAdmin = isAdminLogin;
+      localStorage.setItem("quiniela_user", JSON.stringify({ id: userId }));
+      await enterApp();
+      toast("⚠️ Firebase not configured — running in local demo mode", "error");
+      return;
+    }
+
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      // Returning user — log them back in. No new doc, no duplicate.
+      const data = userSnap.data();
+      await updateDoc(userRef, { lastLogin: serverTimestamp() });
+      state.user = { id: userId, username: userId, ...data };
+      state.isAdmin = isAdminLogin;
+    } else {
+      // First time with this User ID — create the account
+      const newUser = {
+        username: userId,
+        isAdmin: isAdminLogin,
+        createdAt: serverTimestamp(),
+        lastLogin: serverTimestamp(),
+      };
+      await setDoc(userRef, newUser);
+      state.user = { id: userId, username: userId, isAdmin: isAdminLogin, createdAt: Date.now() };
+      state.isAdmin = isAdminLogin;
+    }
+
+    // Remember this User ID so the next visit pre-fills the field
+    localStorage.setItem("quiniela_user", JSON.stringify({ id: userId }));
+    await enterApp();
+  } catch (e) {
+    console.error(e);
+    showError("Login failed: " + (e.message || "Check Firebase configuration"));
+    btn.disabled = false; btn.textContent = "Enter Quiniela";
+  }
+}
+
+function handleLogout() {
+  if (!confirm("Exit the quiniela? Your predictions stay saved.")) return;
+  state.unsubs.forEach(u => { try { u(); } catch {} });
+  state.unsubs = [];
+  state.user = null;
+  state.isAdmin = false;
+  state.predictions = {};
+  state.bonus = { topScorer: "", topAssists: "" };
+  state.officialBonus = { topScorer: "", topAssists: "", status: "upcoming" };
+  state.allUsers = [];
+  state.leaderboard = [];
+  state.matches = [];
+  state.extraCandidates = [];
+  currentPage = "dashboard";
+  // Reset nav-tab state and hide admin tab for next login
+  document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+  const dashTab = document.querySelector('.nav-tab[data-page="dashboard"]');
+  if (dashTab) dashTab.classList.add("active");
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  $("page-dashboard").classList.add("active");
+  $("adminTab").style.display = "none";
+  // Clear sensitive form fields
+  $("loginAccessCode").value = "";
+  localStorage.removeItem("quiniela_user");
+  $("app").classList.remove("active");
+  showLogin();
+  $("loginBtn").disabled = false;
+  $("loginBtn").textContent = "Enter Quiniela";
+}
+
+async function enterApp() {
+  $("loader").style.display = "none";
+  $("loginScreen").style.display = "none";
+  $("app").classList.add("active");
+  $("headerUsername").textContent = state.user.username;
+  // Show or hide admin tab depending on this session's admin status
+  $("adminTab").style.display = state.isAdmin ? "" : "none";
+
+  await loadMatches();
+
+  if (fbReady) {
+    attachRealtimeListeners();
+  } else {
+    const localPreds = localStorage.getItem(`quiniela_preds_${state.user.id}`);
+    if (localPreds) state.predictions = JSON.parse(localPreds);
+    const localBonus = localStorage.getItem(`quiniela_bonus_${state.user.id}`);
+    if (localBonus) state.bonus = JSON.parse(localBonus);
+  }
+
+  navigate("dashboard");
+  updateHeaderPoints();
+}
+
+// ============================================================================
+// REALTIME LISTENERS — with hardened deduplication
+// ============================================================================
+function attachRealtimeListeners() {
+  // Helper: only refresh the current page if it depends on the listener that fired.
+  // This prevents the admin panel from clobbering an in-progress text input
+  // (e.g. typing a player name) when an unrelated listener fires.
+  const refreshIf = (pages) => {
+    if (pages.includes(currentPage)) {
+      // Special case: don't blow away admin while user is actively typing
+      // in any admin form input.
+      if (currentPage === "admin" && isUserTypingInAdmin()) return;
+      refreshCurrentPage();
+    }
+  };
+
+  // 1) My predictions — affects dashboard/matches/leaderboard scoring
+  const predsRef = collection(db, "users", state.user.id, "predictions");
+  state.unsubs.push(onSnapshot(predsRef, snap => {
+    state.predictions = {};
+    snap.forEach(d => { state.predictions[d.id] = d.data(); });
+    refreshIf(["dashboard", "matches", "leaderboard"]);
+    updateHeaderPoints();
+  }));
+
+  // 2) My bonus — only affects bonus page
+  const bonusRef = doc(db, "users", state.user.id, "meta", "bonus");
+  state.unsubs.push(onSnapshot(bonusRef, snap => {
+    if (snap.exists()) state.bonus = snap.data();
+    refreshIf(["bonus"]);
+    updateHeaderPoints();
+  }));
+
+  // 3) Matches — affects dashboard, matches, leaderboard, admin
+  state.unsubs.push(onSnapshot(collection(db, "matches"), snap => {
+    const base = JSON.parse(JSON.stringify(window.MATCHES));
+    const overrides = {};
+    snap.forEach(d => overrides[d.id] = d.data());
+    state.matches = base.map(m => {
+      const o = overrides[String(m.id)];
+      if (!o) return m;
+      return {
+        ...m,
+        status: o.status || m.status,
+        scoreA: o.scoreA ?? m.scoreA,
+        scoreB: o.scoreB ?? m.scoreB,
+        teamA: o.teamA || m.teamA,
+        teamB: o.teamB || m.teamB,
+      };
+    });
+    refreshIf(["dashboard", "matches", "leaderboard", "admin"]);
+    updateHeaderPoints();
+  }));
+
+  // 4) Official bonus results — affects dashboard, bonus, admin
+  const officialBonusRef = doc(db, "config", "officialBonus");
+  state.unsubs.push(onSnapshot(officialBonusRef, snap => {
+    if (snap.exists()) {
+      const data = snap.data();
+      state.officialBonus = {
+        topScorer: data.topScorer || "",
+        topAssists: data.topAssists || "",
+        status: data.status || "upcoming",
+      };
+    }
+    refreshIf(["dashboard", "bonus", "admin"]);
+    updateHeaderPoints();
+  }));
+
+  // 5) All users (deduped by Map keyed on doc ID)
+  state.unsubs.push(onSnapshot(collection(db, "users"), snap => {
+    const userMap = new Map();
+    snap.forEach(d => {
+      userMap.set(d.id, { id: d.id, ...d.data() });
+    });
+    state.allUsers = Array.from(userMap.values());
+    if (currentPage === "leaderboard") loadLeaderboard();
+    if (currentPage === "admin" && !isUserTypingInAdmin()) refreshCurrentPage();
+  }));
+
+  // 6) Extra candidates — affects bonus, admin
+  const candidatesRef = doc(db, "config", "candidates");
+  state.unsubs.push(onSnapshot(candidatesRef, snap => {
+    if (snap.exists()) {
+      const data = snap.data();
+      state.extraCandidates = Array.isArray(data.list) ? data.list : [];
+    } else {
+      state.extraCandidates = [];
+    }
+    refreshIf(["bonus", "admin"]);
+  }));
+}
+
+// Is the user actively typing into a form input in the admin panel?
+// Used to suppress destructive re-renders that would clear their input.
+function isUserTypingInAdmin() {
+  const active = document.activeElement;
+  if (!active) return false;
+  const adminPage = $("page-admin");
+  if (!adminPage || !adminPage.contains(active)) return false;
+  const tag = active.tagName;
+  return tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA";
+}
+
+function allCandidates() {
+  const map = new Map();
+  for (const c of window.BONUS_CANDIDATES) {
+    map.set(c.name.toLowerCase(), c);
+  }
+  for (const c of state.extraCandidates) {
+    if (c && c.name) map.set(c.name.toLowerCase(), c);
+  }
+  return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+// ============================================================================
+// PREDICTIONS — SAVE
+// ============================================================================
+async function savePrediction(matchId, scoreA, scoreB) {
+  const match = state.matches.find(m => m.id === matchId);
+  if (!match) return;
+  if (match.status !== "upcoming") {
+    toast("Match is locked — predictions closed", "error");
+    return;
+  }
+  if (scoreA === "" || scoreB === "" || scoreA == null || scoreB == null) {
+    toast("Enter both scores", "error");
+    return;
+  }
+  const a = parseInt(scoreA, 10);
+  const b = parseInt(scoreB, 10);
+  if (isNaN(a) || isNaN(b) || a < 0 || b < 0 || a > 20 || b > 20) {
+    toast("Invalid score (0-20)", "error");
+    return;
+  }
+
+  const pred = { scoreA: a, scoreB: b, updatedAt: Date.now() };
+
+  if (!fbReady) {
+    state.predictions[matchId] = pred;
+    localStorage.setItem(`quiniela_preds_${state.user.id}`, JSON.stringify(state.predictions));
+    toast("✓ Saved (local)", "success");
+    refreshCurrentPage();
+    return;
+  }
+
+  try {
+    const predRef = doc(db, "users", state.user.id, "predictions", String(matchId));
+    await setDoc(predRef, { ...pred, updatedAt: serverTimestamp() });
+    toast("✓ Prediction saved", "success");
+  } catch (e) {
+    console.error(e);
+    toast("Save failed: " + e.message, "error");
+  }
+}
+
+async function saveBonus() {
+  const bonusStatus = state.officialBonus?.status || "upcoming";
+  if (bonusStatus !== "upcoming") {
+    toast("Bonus predictions are locked", "error");
+    return;
+  }
+  const topScorer = sanitize($("bonusTopScorer").value);
+  const topAssists = sanitize($("bonusTopAssists").value);
+  const data = { topScorer, topAssists, updatedAt: Date.now() };
+
+  if (!fbReady) {
+    state.bonus = data;
+    localStorage.setItem(`quiniela_bonus_${state.user.id}`, JSON.stringify(data));
+    toast("✓ Bonus saved (local)", "success");
+    return;
+  }
+
+  try {
+    const ref = doc(db, "users", state.user.id, "meta", "bonus");
+    await setDoc(ref, { ...data, updatedAt: serverTimestamp() });
+    toast("✓ Bonus saved", "success");
+  } catch (e) {
+    toast("Save failed: " + e.message, "error");
+  }
+}
+
+// ============================================================================
+// NAVIGATION
+// ============================================================================
+let currentPage = "dashboard";
+
+function navigate(page) {
+  currentPage = page;
+  document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  const tab = document.querySelector(`.nav-tab[data-page="${page}"]`);
+  if (tab) tab.classList.add("active");
+  $(`page-${page}`).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  refreshCurrentPage();
+}
+
+function refreshCurrentPage() {
+  if (currentPage === "dashboard") renderDashboard();
+  else if (currentPage === "matches") renderMatches();
+  else if (currentPage === "bonus") renderBonus();
+  else if (currentPage === "leaderboard") loadLeaderboard();
+  else if (currentPage === "admin") renderAdmin();
+}
+
+function updateHeaderPoints() {
+  const stats = computeUserStats(state.predictions, state.matches);
+  const bonusPts = bonusTotal(state.bonus, state.officialBonus);
+  $("headerPoints").textContent = `${stats.total + bonusPts} pts`;
+}
+
+// ============================================================================
+// RENDER: DASHBOARD
+// ============================================================================
+function renderDashboard() {
+  const el = $("dashContent");
+  const stats = computeUserStats(state.predictions, state.matches);
+  const bonusInfo = computeBonusPoints(state.bonus, state.officialBonus);
+  const bonusPts = bonusInfo.total;
+  const totalPts = stats.total + bonusPts;
+
+  const totalMade = Object.keys(state.predictions).length;
+  const upcomingCount = state.matches.filter(m => m.status === "upcoming").length;
+
+  const nextMatches = state.matches.filter(m => m.status === "upcoming").slice(0, 4);
+  const recentResults = state.matches
+    .filter(m => m.status === "finished")
+    .sort((a,b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 3);
+
+  const fbWarning = !fbReady ? `
+    <div class="fb-banner">
+      ⚠️ <strong>Firebase not configured.</strong> Running in local demo mode — your data only persists in this browser.
+    </div>
+  ` : "";
+
+  el.innerHTML = `
+    ${fbWarning}
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Points</div>
+        <div class="stat-value">${totalPts}</div>
+        <div class="stat-sub">${(() => {
+          const bStatus = state.officialBonus?.status || 'upcoming';
+          if (bonusPts > 0) return `+${bonusPts} bonus pts`;
+          if (bStatus === 'finished') return 'No bonus points';
+          if (bStatus === 'locked') return '⏳ Pending results';
+          return '⏳ Awarded after tournament';
+        })()}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Exact Scores</div>
+        <div class="stat-value">${stats.exacts}</div>
+        <div class="stat-sub">${POINTS_EXACT} pts each</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Correct Winners</div>
+        <div class="stat-value">${stats.winners}</div>
+        <div class="stat-sub">${POINTS_WINNER} pts each</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Accuracy</div>
+        <div class="stat-value">${stats.accuracy}%</div>
+        <div class="stat-sub">${stats.finished} played</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Predictions Made</div>
+        <div class="stat-value">${totalMade}</div>
+        <div class="stat-sub">of 104 matches</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Matches Upcoming</div>
+        <div class="stat-value">${upcomingCount}</div>
+        <div class="stat-sub">${104 - upcomingCount - stats.finished} locked</div>
+      </div>
+    </div>
+
+    ${nextMatches.length > 0 ? `
+      <h2 class="section-title">Next Up</h2>
+      ${nextMatches.map(m => renderMatchCard(m)).join("")}
+    ` : ""}
+
+    ${recentResults.length > 0 ? `
+      <h2 class="section-title">Recent Results</h2>
+      ${recentResults.map(m => renderMatchCard(m)).join("")}
+    ` : ""}
+  `;
+}
+
+// ============================================================================
+// RENDER: MATCHES
+// ============================================================================
+function renderMatches() {
+  const el = $("matchesContent");
+  const stages = ["Group Stage", "Round of 32", "Round of 16", "Quarterfinal", "Semifinal", "Third Place", "Final"];
+
+  const groupFilterHtml = `
+    <div class="group-filter">
+      <div class="group-chip ${state.currentGroupFilter === 'ALL' ? 'active' : ''}"
+        onclick="window.setGroupFilter('ALL')">All Groups</div>
+      ${["A","B","C","D","E","F","G","H","I","J","K","L"].map(g =>
+        `<div class="group-chip ${state.currentGroupFilter === g ? 'active' : ''}"
+          onclick="window.setGroupFilter('${g}')">${g}</div>`
+      ).join("")}
+    </div>
+  `;
+
+  let html = "";
+  for (const stage of stages) {
+    let matches = state.matches.filter(m => m.stage === stage);
+    if (matches.length === 0) continue;
+    if (stage === "Group Stage" && state.currentGroupFilter !== "ALL") {
+      matches = matches.filter(m => m.group === state.currentGroupFilter);
+    }
+    html += `<h2 class="section-title">${stage} <span style="color: var(--text-muted); font-weight: 400; margin-left: auto;">${matches.length} matches</span></h2>`;
+    if (stage === "Group Stage") html += groupFilterHtml;
+    html += matches.map(m => renderMatchCard(m)).join("");
+  }
+  el.innerHTML = html;
+}
+
+window.setGroupFilter = (g) => {
+  state.currentGroupFilter = g;
+  renderMatches();
+};
+
+function renderMatchCard(m) {
+  const tA = teamInfo(m.teamA, m.labelA);
+  const tB = teamInfo(m.teamB, m.labelB);
+  const pred = state.predictions[m.id];
+  const isFinished = m.status === "finished";
+  const isLocked = m.status === "locked";
+  const isUpcoming = m.status === "upcoming";
+  const hasTeams = m.teamA && m.teamB;
+
+  const statusBadge = `
+    <span class="match-status-badge status-${m.status}">
+      ${m.status === "upcoming" ? "Open" : m.status === "locked" ? "🔒 Locked" : "✓ Final"}
+    </span>
+  `;
+
+  let resultHtml = "";
+  if (isFinished) {
+    const r = scorePrediction(pred, m);
+    const resultClass = r ? r.kind : "wrong";
+    const pts = r ? r.points : 0;
+    const kindLabel = r ? (r.kind === "exact" ? "🎯 Exact Score!" : r.kind === "winner" ? "✓ Correct Winner" : "✗ Wrong") : "No Prediction";
+    resultHtml = `
+      <div class="match-result ${resultClass}">
+        <div class="result-row">
+          <span class="result-label">Actual</span>
+          <span class="result-score">${m.scoreA} — ${m.scoreB}</span>
+        </div>
+        ${pred ? `
+          <div class="result-row" style="margin-top: 4px;">
+            <span class="result-label">Your pick</span>
+            <span class="result-score">${pred.scoreA} — ${pred.scoreB}</span>
+          </div>
+          <div class="result-row" style="margin-top: 6px;">
+            <span class="result-label">${kindLabel}</span>
+            <span class="result-points ${pts === 0 ? 'zero' : ''}">+${pts} pts</span>
+          </div>
+        ` : `
+          <div class="result-row" style="margin-top: 6px;">
+            <span class="result-label">No prediction made</span>
+            <span class="result-points zero">0 pts</span>
+          </div>
+        `}
+      </div>
+    `;
+  }
+
+  let predictionHtml = "";
+  if (!isFinished) {
+    if (!hasTeams) {
+      predictionHtml = `
+        <div style="padding: 10px; text-align: center; color: var(--text-muted); font-size: 12px; font-style: italic;">
+          Teams determined after group stage
+        </div>
+      `;
+    } else {
+      const disabled = !isUpcoming ? "disabled" : "";
+      predictionHtml = `
+        <div class="prediction-row">
+          <input type="number" min="0" max="20" inputmode="numeric" pattern="[0-9]*" class="score-input" ${disabled}
+            id="pred-${m.id}-A" value="${pred?.scoreA ?? ''}"
+            placeholder="0" onchange="window.updateSaveBtn(${m.id})">
+          <span class="score-dash">—</span>
+          <input type="number" min="0" max="20" inputmode="numeric" pattern="[0-9]*" class="score-input" ${disabled}
+            id="pred-${m.id}-B" value="${pred?.scoreB ?? ''}"
+            placeholder="0" onchange="window.updateSaveBtn(${m.id})">
+        </div>
+        ${isUpcoming ? `
+          <div class="match-footer">
+            <span class="countdown">⏱ ${countdown(m.date)}</span>
+            <button class="btn-save ${pred ? 'saved' : ''}" id="save-${m.id}"
+              onclick="window.handleSave(${m.id})">
+              ${pred ? '✓ Saved — Update' : 'Save Pick'}
+            </button>
+          </div>
+        ` : ""}
+      `;
+    }
+  }
+
+  return `
+    <div class="match-card ${m.status}">
+      <div class="match-meta">
+        <span class="match-stage">${m.stage}${m.group ? ` · Group ${m.group}` : ''}</span>
+        ${statusBadge}
+      </div>
+      <div class="match-teams">
+        <div class="team">
+          <span class="team-flag">${tA.flag}</span>
+          <span class="${hasTeams ? 'team-name' : 'team-placeholder'}">${tA.name}</span>
+        </div>
+        <div class="vs">${isFinished ? `${m.scoreA}-${m.scoreB}` : 'VS'}</div>
+        <div class="team team-right">
+          <span class="${hasTeams ? 'team-name' : 'team-placeholder'}">${tB.name}</span>
+          <span class="team-flag">${tB.flag}</span>
+        </div>
+      </div>
+      <div class="match-info">${formatDate(m.date)}</div>
+      <div class="match-venue">${m.venue}</div>
+      ${predictionHtml}
+      ${resultHtml}
+    </div>
+  `;
+}
+
+window.handleSave = (matchId) => {
+  const a = $(`pred-${matchId}-A`).value;
+  const b = $(`pred-${matchId}-B`).value;
+  savePrediction(matchId, a, b);
+};
+
+window.updateSaveBtn = (matchId) => {
+  const btn = $(`save-${matchId}`);
+  if (btn) { btn.classList.remove("saved"); btn.textContent = "Save Pick"; }
+};
+
+// ============================================================================
+// RENDER: BONUS — with detailed breakdown
+// ============================================================================
+function renderBonus() {
+  const el = $("bonusContent");
+  const bonusInfo = computeBonusPoints(state.bonus, state.officialBonus);
+  const bonusPts = bonusInfo.total;
+
+  const tsMatch = !!state.bonus.topScorer && !!state.officialBonus.topScorer &&
+                  normalizeName(state.bonus.topScorer) === normalizeName(state.officialBonus.topScorer);
+  const taMatch = !!state.bonus.topAssists && !!state.officialBonus.topAssists &&
+                  normalizeName(state.bonus.topAssists) === normalizeName(state.officialBonus.topAssists);
+
+  const wouldEarnScorer  = tsMatch;
+  const wouldEarnAssists = taMatch;
+  const pendingPts = (wouldEarnScorer ? POINTS_TOP_SCORER : 0) + (wouldEarnAssists ? POINTS_TOP_ASSISTS : 0);
+
+  const bonusStatus = state.officialBonus.status || "upcoming";
+  const isLocked = bonusStatus === "locked" || bonusStatus === "finished";
+  const isFinished = bonusStatus === "finished";
+
+  const candidates = allCandidates();
+
+  const buildOptions = (selected) => {
+    const sel = normalizeName(selected || "");
+    let html = `<option value="">— Select a player —</option>`;
+    if (selected && !candidates.some(c => normalizeName(c.name) === sel)) {
+      html += `<option value="${selected}" selected>${selected} (custom)</option>`;
+    }
+    for (const c of candidates) {
+      const isSel = normalizeName(c.name) === sel;
+      const flag = c.team && window.TEAMS[c.team] ? window.TEAMS[c.team].flag : "";
+      html += `<option value="${c.name}"${isSel ? ' selected' : ''}>${flag} ${c.name}</option>`;
+    }
+    return html;
+  };
+
+  let statusBanner = "";
+  if (bonusStatus === "upcoming") {
+    statusBanner = `
+      <div class="fb-banner" style="background: linear-gradient(90deg, rgba(100,116,255,0.12), rgba(100,116,255,0.03)); border-color: rgba(100,116,255,0.35); color: #a5b4fc;">
+        🟢 <strong>Bonus predictions are open.</strong>
+        Pick your Top Goalscorer and Most Assists leader below.
+        Points are awarded once the tournament ends and the admin confirms the official winners.
+      </div>
+    `;
+  } else if (bonusStatus === "locked") {
+    statusBanner = `
+      <div class="fb-banner" style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05)); border-color: rgba(245, 158, 11, 0.4); color: #fcd34d;">
+        🔒 <strong>Bonus predictions are locked.</strong> The tournament is in progress — your picks are final.
+        ${pendingPts > 0 ? `<br><span style="color: #86efac; font-size: 11px;">⏳ If results hold, you're on track for <strong>+${pendingPts} bonus pts</strong>.</span>` : ''}
+      </div>
+    `;
+  } else if (bonusStatus === "finished") {
+    statusBanner = `
+      <div class="fb-banner" style="background: linear-gradient(90deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.03)); border-color: rgba(34, 197, 94, 0.3); color: #86efac;">
+        ✓ <strong>Bonus results are confirmed.</strong>
+        ${bonusPts > 0 ? `You earned <strong>+${bonusPts} bonus points!</strong>` : `No bonus points this time.`}
+      </div>
+    `;
+  }
+
+  el.innerHTML = `
+    ${statusBanner}
+
+    <div class="bonus-card">
+      <div class="bonus-title">⚽ Top Goalscorer</div>
+      <div class="bonus-points">+${POINTS_TOP_SCORER} points if correct</div>
+      <div class="bonus-input-row">
+        <select id="bonusTopScorer" class="form-input" ${isLocked ? 'disabled' : ''}>
+          ${buildOptions(state.bonus.topScorer)}
+        </select>
+      </div>
+      ${isFinished && state.officialBonus.topScorer ? `
+        <div style="margin-top: 10px; font-size: 12px; color: ${tsMatch ? 'var(--success)' : 'var(--danger)'};">
+          Official: <strong>${state.officialBonus.topScorer}</strong> ${tsMatch ? '✓ Match! +' + POINTS_TOP_SCORER + ' pts' : '✗ No points'}
+        </div>
+      ` : ""}
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-title">🎯 Most Assists</div>
+      <div class="bonus-points">+${POINTS_TOP_ASSISTS} points if correct</div>
+      <div class="bonus-input-row">
+        <select id="bonusTopAssists" class="form-input" ${isLocked ? 'disabled' : ''}>
+          ${buildOptions(state.bonus.topAssists)}
+        </select>
+      </div>
+      ${isFinished && state.officialBonus.topAssists ? `
+        <div style="margin-top: 10px; font-size: 12px; color: ${taMatch ? 'var(--success)' : 'var(--danger)'};">
+          Official: <strong>${state.officialBonus.topAssists}</strong> ${taMatch ? '✓ Match! +' + POINTS_TOP_ASSISTS + ' pts' : '✗ No points'}
+        </div>
+      ` : ""}
+    </div>
+
+    ${!isLocked ? `
+      <button class="btn-primary" onclick="window.handleSaveBonus()">Save Bonus Predictions</button>
+    ` : ""}
+
+    <div style="margin-top: 20px; padding: 14px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 12px;">
+      <div style="font-size: 12px; color: var(--text-dim); line-height: 1.6;">
+        <strong style="color: var(--gold);">Tip:</strong> Pick from the dropdown — no typos means no missed points.
+        ${!isLocked ? 'You can update your picks until the admin locks bonus predictions (usually once the tournament kicks off).' : ''}
+      </div>
+    </div>
+
+    ${isFinished ? `
+      <div class="stats-grid" style="margin-top: 20px;">
+        <div class="stat-card">
+          <div class="stat-label">Top Scorer Pts</div>
+          <div class="stat-value">${bonusInfo.breakdown.scorer}</div>
+          <div class="stat-sub">of ${POINTS_TOP_SCORER} possible</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Most Assists Pts</div>
+          <div class="stat-value">${bonusInfo.breakdown.assists}</div>
+          <div class="stat-sub">of ${POINTS_TOP_ASSISTS} possible</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Bonus</div>
+          <div class="stat-value">${bonusPts}</div>
+          <div class="stat-sub">of ${POINTS_TOP_SCORER + POINTS_TOP_ASSISTS} possible</div>
+        </div>
+      </div>
+    ` : ""}
+  `;
+}
+
+window.handleSaveBonus = saveBonus;
+
+// ============================================================================
+// RENDER: LEADERBOARD — uses dedupe defense
+// ============================================================================
+async function loadLeaderboard() {
+  const el = $("leaderboardContent");
+  el.innerHTML = `<div class="empty"><div class="loader-spinner" style="margin: 0 auto 12px;"></div><div class="empty-text">Computing leaderboard...</div></div>`;
+
+  if (!fbReady) {
+    const stats = computeUserStats(state.predictions, state.matches);
+    const bonusPts = bonusTotal(state.bonus, state.officialBonus);
+    state.leaderboard = [{
+      id: state.user.id, username: state.user.username,
+      total: stats.total + bonusPts, exacts: stats.exacts,
+      winners: stats.winners, accuracy: stats.accuracy
+    }];
+    renderLeaderboardList();
+    return;
+  }
+
+  try {
+    // Defensive dedupe of users before computing
+    const uniqueUsers = dedupeById(state.allUsers);
+    const rankings = [];
+    const seenIds = new Set();
+
+    for (const u of uniqueUsers) {
+      if (seenIds.has(u.id)) continue;
+      seenIds.add(u.id);
+
+      const predsSnap = await getDocs(collection(db, "users", u.id, "predictions"));
+      const preds = {};
+      predsSnap.forEach(d => preds[d.id] = d.data());
+
+      let bonus = { topScorer: "", topAssists: "" };
+      const bonusSnap = await getDoc(doc(db, "users", u.id, "meta", "bonus"));
+      if (bonusSnap.exists()) bonus = bonusSnap.data();
+
+      const stats = computeUserStats(preds, state.matches);
+      const bonusPts = bonusTotal(bonus, state.officialBonus);
+
+      rankings.push({
+        id: u.id,
+        username: u.username,
+        total: stats.total + bonusPts,
+        exacts: stats.exacts,
+        winners: stats.winners,
+        accuracy: stats.accuracy,
+        finished: stats.finished,
+      });
+    }
+
+    rankings.sort((a, b) => {
+      if (b.total !== a.total) return b.total - a.total;
+      if (b.exacts !== a.exacts) return b.exacts - a.exacts;
+      return b.winners - a.winners;
+    });
+
+    state.leaderboard = rankings;
+    $("leaderSubtitle").textContent = `${rankings.length} player${rankings.length === 1 ? '' : 's'} competing`;
+    renderLeaderboardList();
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = `<div class="empty"><div class="empty-text">Failed to load leaderboard</div></div>`;
+  }
+}
+
+function renderLeaderboardList() {
+  const el = $("leaderboardContent");
+  if (state.leaderboard.length === 0) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">🏆</div><div class="empty-text">No players yet</div></div>`;
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="leaderboard">
+      ${state.leaderboard.map((u, i) => {
+        const rank = i + 1;
+        const rankClass = rank === 1 ? "top-1" : rank === 2 ? "top-2" : rank === 3 ? "top-3" : "";
+        const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : rank;
+        const isMe = u.id === state.user.id;
+        return `
+          <div class="leaderboard-row ${isMe ? 'me' : ''}">
+            <div class="rank ${rankClass}">${medal}</div>
+            <div class="leader-info">
+              <div class="leader-name">${sanitize(u.username)}${isMe ? ' (you)' : ''}</div>
+              <div class="leader-stats leader-stats-col">
+                ${u.exacts} exact · ${u.winners} winners · ${u.accuracy}% acc
+              </div>
+            </div>
+            <div>
+              <div class="leader-points">${u.total}</div>
+              <div class="leader-pts-label">points</div>
+            </div>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+// ============================================================================
+// RENDER: ADMIN PANEL — with hardened user dedupe
+// ============================================================================
+function renderAdmin() {
+  if (!state.isAdmin) {
+    $("adminContent").innerHTML = `<div class="empty"><div class="empty-icon">🔒</div><div class="empty-text">Admin access required</div></div>`;
+    return;
+  }
+
+  const el = $("adminContent");
+
+  // CRITICAL: dedupe users before counting/rendering. Even though the realtime
+  // listener uses a Map, we apply a second defensive pass here in case
+  // anything modified state.allUsers between snapshot and render.
+  const uniqueUsers = dedupeById(state.allUsers);
+  const userCount = uniqueUsers.length;
+
+  el.innerHTML = `
+    <div class="admin-section">
+      <div class="admin-section-title">🎯 Official Bonus Results</div>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+
+        <div>
+          <label class="form-label">Bonus Status</label>
+          <select id="adminBonusStatus" class="admin-select" style="width: 100%; padding: 10px; font-size: 14px;">
+            <option value="upcoming"  ${(state.officialBonus.status||'upcoming') === 'upcoming'  ? 'selected' : ''}>🟢 Upcoming — predictions open</option>
+            <option value="locked"    ${(state.officialBonus.status||'upcoming') === 'locked'    ? 'selected' : ''}>🔒 Locked — no more picks</option>
+            <option value="finished"  ${(state.officialBonus.status||'upcoming') === 'finished'  ? 'selected' : ''}>✓ Finished — points awarded</option>
+          </select>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">
+            Set to <strong>Locked</strong> when tournament starts. Set to <strong>Finished</strong> after the tournament ends and you've set the official winners below.
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label">⚽ Official Top Goalscorer (Golden Boot)</label>
+          <select id="adminTopScorer" class="admin-select" style="width: 100%; padding: 10px; font-size: 14px;">
+            ${(() => {
+              const cur = state.officialBonus.topScorer || "";
+              const candidates = allCandidates();
+              let opts = `<option value="">— Select winner —</option>`;
+              if (cur && !candidates.some(c => c.name.toLowerCase() === cur.toLowerCase())) {
+                opts += `<option value="${cur}" selected>${cur} (custom)</option>`;
+              }
+              for (const c of candidates) {
+                const flag = c.team && window.TEAMS[c.team] ? window.TEAMS[c.team].flag : "";
+                opts += `<option value="${c.name}" ${c.name === cur ? 'selected' : ''}>${flag} ${c.name}</option>`;
+              }
+              return opts;
+            })()}
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">🎯 Official Most Assists</label>
+          <select id="adminTopAssists" class="admin-select" style="width: 100%; padding: 10px; font-size: 14px;">
+            ${(() => {
+              const cur = state.officialBonus.topAssists || "";
+              const candidates = allCandidates();
+              let opts = `<option value="">— Select winner —</option>`;
+              if (cur && !candidates.some(c => c.name.toLowerCase() === cur.toLowerCase())) {
+                opts += `<option value="${cur}" selected>${cur} (custom)</option>`;
+              }
+              for (const c of candidates) {
+                const flag = c.team && window.TEAMS[c.team] ? window.TEAMS[c.team].flag : "";
+                opts += `<option value="${c.name}" ${c.name === cur ? 'selected' : ''}>${flag} ${c.name}</option>`;
+              }
+              return opts;
+            })()}
+          </select>
+        </div>
+
+        <button class="btn-primary" onclick="window.adminSaveOfficialBonus()">Save Bonus Settings</button>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-title">➕ Add Player to Dropdown</div>
+      <div style="font-size: 12px; color: var(--text-dim); margin-bottom: 10px;">
+        Add a player who isn't in the default list. They'll appear in everyone's dropdown immediately.
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <input type="text" id="adminNewPlayerName" class="form-input" style="flex:1; min-width: 180px;"
+          placeholder="Full name (e.g. Lyle Foster)">
+        <select id="adminNewPlayerTeam" class="admin-select" style="min-width: 160px; padding: 10px;">
+          <option value="">— Team —</option>
+          ${Object.entries(window.TEAMS).map(([code, t]) =>
+            `<option value="${code}">${t.flag} ${t.name}</option>`
+          ).join("")}
+        </select>
+        <button class="btn-admin primary" onclick="window.adminAddCandidate()">Add</button>
+      </div>
+      ${state.extraCandidates.length > 0 ? `
+        <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px;">
+          ${state.extraCandidates.map((c, i) => `
+            <span style="background: var(--bg-3); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+              ${c.team && window.TEAMS[c.team] ? window.TEAMS[c.team].flag : ''} ${c.name}
+              <span onclick="window.adminRemoveCandidate(${i})" style="cursor:pointer; color: var(--danger); font-weight:700;">×</span>
+            </span>
+          `).join("")}
+        </div>
+      ` : ""}
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-title">⚡ Quick Actions</div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn-admin" onclick="window.adminLockStarted()">🔒 Lock All Started Matches</button>
+        <button class="btn-admin" onclick="window.adminExportData()">📥 Export Data</button>
+        <button class="btn-admin danger" onclick="window.adminWipeAllData()">🗑️ Wipe All Data</button>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.5;">
+        <strong style="color: var(--danger);">Wipe All Data</strong> deletes every user, prediction, bonus pick, match result, and audit log entry. The static match schedule reloads automatically. You'll be logged out and need to sign back in.
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-title">⚽ Match Results & Status</div>
+      <div style="margin-bottom: 10px;">
+        <select id="adminStageFilter" class="admin-select" style="width: 100%;"
+          onchange="window.refreshAdminMatches()">
+          <option value="ALL">All Stages</option>
+          <option value="Group Stage">Group Stage</option>
+          <option value="Round of 32">Round of 32</option>
+          <option value="Round of 16">Round of 16</option>
+          <option value="Quarterfinal">Quarterfinals</option>
+          <option value="Semifinal">Semifinals</option>
+          <option value="Third Place">Third Place</option>
+          <option value="Final">Final</option>
+        </select>
+      </div>
+      <div id="adminMatchList"></div>
+    </div>
+
+    <div class="admin-section">
+      <div class="admin-section-title">👥 Users (${userCount})</div>
+      <div class="users-list" id="adminUsersList"></div>
+    </div>
+  `;
+
+  window.refreshAdminMatches();
+  renderAdminUsers();
+}
+
+window.refreshAdminMatches = () => {
+  const filter = $("adminStageFilter")?.value || "ALL";
+  const matches = filter === "ALL"
+    ? state.matches
+    : state.matches.filter(m => m.stage === filter);
+
+  const list = $("adminMatchList");
+  if (!list) return;
+
+  list.innerHTML = matches.map(m => {
+    const tA = teamInfo(m.teamA, m.labelA);
+    const tB = teamInfo(m.teamB, m.labelB);
+    const hasTeams = m.teamA && m.teamB;
+
+    return `
+      <div class="admin-match-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong style="font-size: 12px; color: var(--gold); letter-spacing: 1px;">
+            #${m.id} · ${m.stage}${m.group ? ` · ${m.group}` : ''}
+          </strong>
+          <span class="match-status-badge status-${m.status}">${m.status}</span>
+        </div>
+        <div style="font-size: 13px; margin-bottom: 8px;">
+          ${tA.flag} ${tA.name} <span style="color: var(--text-muted);">vs</span> ${tB.name} ${tB.flag}
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px;">
+          ${formatDate(m.date)} · ${m.venue}
+        </div>
+        <div class="admin-controls">
+          <input type="number" min="0" max="20" inputmode="numeric" pattern="[0-9]*" class="score-input" id="adm-${m.id}-A"
+            placeholder="${hasTeams ? tA.name : 'A'}" value="${m.scoreA ?? ''}"
+            style="font-size: 16px; padding: 8px;">
+          <input type="number" min="0" max="20" inputmode="numeric" pattern="[0-9]*" class="score-input" id="adm-${m.id}-B"
+            placeholder="${hasTeams ? tB.name : 'B'}" value="${m.scoreB ?? ''}"
+            style="font-size: 16px; padding: 8px;">
+          <select class="admin-select" id="adm-${m.id}-status">
+            <option value="upcoming" ${m.status === 'upcoming' ? 'selected' : ''}>Upcoming</option>
+            <option value="locked" ${m.status === 'locked' ? 'selected' : ''}>Locked</option>
+            <option value="finished" ${m.status === 'finished' ? 'selected' : ''}>Finished</option>
+          </select>
+          <button class="btn-admin primary" onclick="window.adminSaveMatch(${m.id})">Save</button>
+        </div>
+        ${!hasTeams ? `
+          <div style="margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <select class="admin-select" id="adm-${m.id}-teamA">
+              <option value="">Team A: ${m.labelA}</option>
+              ${Object.keys(window.TEAMS).map(code =>
+                `<option value="${code}">${window.TEAMS[code].flag} ${window.TEAMS[code].name}</option>`
+              ).join("")}
+            </select>
+            <select class="admin-select" id="adm-${m.id}-teamB">
+              <option value="">Team B: ${m.labelB}</option>
+              ${Object.keys(window.TEAMS).map(code =>
+                `<option value="${code}">${window.TEAMS[code].flag} ${window.TEAMS[code].name}</option>`
+              ).join("")}
+            </select>
+          </div>
+          <button class="btn-admin" onclick="window.adminSetTeams(${m.id})" style="margin-top: 6px; width: 100%;">
+            Set Teams for this Match
+          </button>
+        ` : ""}
+      </div>
+    `;
+  }).join("");
+};
+
+window.adminSaveMatch = async (matchId) => {
+  if (!state.isAdmin) return;
+  const scoreA = $(`adm-${matchId}-A`).value;
+  const scoreB = $(`adm-${matchId}-B`).value;
+  const status = $(`adm-${matchId}-status`).value;
+
+  const data = { status };
+  if (scoreA !== "") data.scoreA = parseInt(scoreA, 10);
+  else data.scoreA = null;
+  if (scoreB !== "") data.scoreB = parseInt(scoreB, 10);
+  else data.scoreB = null;
+
+  if (status === "finished" && (data.scoreA == null || data.scoreB == null)) {
+    toast("Need both scores to mark as finished", "error");
+    return;
+  }
+
+  if (!fbReady) { toast("Firebase not configured", "error"); return; }
+
+  try {
+    const ref = doc(db, "matches", String(matchId));
+    await setDoc(ref, {
+      ...data,
+      updatedAt: serverTimestamp(),
+      updatedBy: state.user.id,
+    }, { merge: true });
+
+    await setDoc(doc(collection(db, "auditLog")), {
+      action: "match_update", matchId, data,
+      admin: state.user.id, at: serverTimestamp()
+    });
+
+    toast(`✓ Match #${matchId} saved`, "success");
+  } catch (e) {
+    toast("Save failed: " + e.message, "error");
+  }
+};
+
+window.adminSetTeams = async (matchId) => {
+  if (!state.isAdmin) return;
+  const teamA = $(`adm-${matchId}-teamA`).value;
+  const teamB = $(`adm-${matchId}-teamB`).value;
+  if (!teamA || !teamB) { toast("Pick both teams", "error"); return; }
+  if (teamA === teamB) { toast("Teams must differ", "error"); return; }
+
+  if (!fbReady) { toast("Firebase not configured", "error"); return; }
+
+  try {
+    const ref = doc(db, "matches", String(matchId));
+    await setDoc(ref, {
+      teamA, teamB,
+      updatedAt: serverTimestamp(),
+      updatedBy: state.user.id,
+    }, { merge: true });
+    await setDoc(doc(collection(db, "auditLog")), {
+      action: "match_set_teams", matchId, teamA, teamB,
+      admin: state.user.id, at: serverTimestamp()
+    });
+    toast(`✓ Teams set for match #${matchId}`, "success");
+  } catch (e) {
+    toast("Save failed: " + e.message, "error");
+  }
+};
+
+window.adminSaveOfficialBonus = async () => {
+  if (!state.isAdmin) return;
+  const topScorer = sanitize($("adminTopScorer").value);
+  const topAssists = sanitize($("adminTopAssists").value);
+  const status = $("adminBonusStatus").value;
+
+  if (!fbReady) { toast("Firebase not configured", "error"); return; }
+
+  try {
+    await setDoc(doc(db, "config", "officialBonus"), {
+      topScorer, topAssists, status,
+      updatedAt: serverTimestamp(),
+      updatedBy: state.user.id,
+    });
+    await setDoc(doc(collection(db, "auditLog")), {
+      action: "bonus_update", topScorer, topAssists, status,
+      admin: state.user.id, at: serverTimestamp()
+    });
+    toast(`✓ Bonus saved — status: ${status}`, "success");
+  } catch (e) {
+    toast("Save failed: " + e.message, "error");
+  }
+};
+
+window.adminAddCandidate = async () => {
+  if (!state.isAdmin) return;
+  const name = sanitize($("adminNewPlayerName").value);
+  const team = $("adminNewPlayerTeam").value;
+  if (!name || name.length < 2) { toast("Enter a player name", "error"); return; }
+
+  const already = allCandidates().some(c => c.name.toLowerCase() === name.toLowerCase());
+  if (already) { toast(`${name} is already in the list`, "error"); return; }
+
+  if (!fbReady) { toast("Firebase not configured", "error"); return; }
+
+  const updated = [...state.extraCandidates, { name, team }];
+  try {
+    await setDoc(doc(db, "config", "candidates"), {
+      list: updated,
+      updatedAt: serverTimestamp(),
+      updatedBy: state.user.id,
+    });
+    $("adminNewPlayerName").value = "";
+    toast(`✓ ${name} added to dropdown`, "success");
+  } catch (e) {
+    toast("Save failed: " + e.message, "error");
+  }
+};
+
+window.adminRemoveCandidate = async (index) => {
+  if (!state.isAdmin) return;
+  if (!fbReady) { toast("Firebase not configured", "error"); return; }
+  const updated = state.extraCandidates.filter((_, i) => i !== index);
+  try {
+    await setDoc(doc(db, "config", "candidates"), {
+      list: updated,
+      updatedAt: serverTimestamp(),
+      updatedBy: state.user.id,
+    });
+    toast("✓ Player removed", "success");
+  } catch (e) {
+    toast("Save failed: " + e.message, "error");
+  }
+};
+
+window.adminLockStarted = async () => {
+  if (!state.isAdmin) return;
+  if (!fbReady) { toast("Firebase not configured", "error"); return; }
+  if (!confirm("Lock all matches whose kickoff time has passed?")) return;
+
+  const now = Date.now();
+  const toLock = state.matches.filter(m =>
+    m.status === "upcoming" && new Date(m.date).getTime() <= now
+  );
+
+  if (toLock.length === 0) { toast("No matches to lock", "success"); return; }
+
+  try {
+    const batch = writeBatch(db);
+    toLock.forEach(m => {
+      batch.set(doc(db, "matches", String(m.id)),
+        { status: "locked", updatedAt: serverTimestamp(), updatedBy: state.user.id },
+        { merge: true });
+    });
+    await batch.commit();
+    toast(`✓ Locked ${toLock.length} matches`, "success");
+  } catch (e) {
+    toast("Bulk lock failed: " + e.message, "error");
+  }
+};
+
+window.adminExportData = () => {
+  const data = {
+    exportedAt: new Date().toISOString(),
+    matches: state.matches,
+    leaderboard: state.leaderboard,
+    users: dedupeById(state.allUsers),
+    officialBonus: state.officialBonus,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `quiniela-export-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast("✓ Data exported", "success");
+};
+
+// ============================================================================
+// WIPE ALL DATA — full reset
+// Deletes every user (and their nested predictions + meta/bonus subcollections),
+// every match override, the candidates list, the official bonus config, and
+// every audit log entry. The static match schedule reloads from the code.
+// Logs the user out so they start clean.
+// ============================================================================
+window.adminWipeAllData = async () => {
+  if (!state.isAdmin) return;
+  if (!fbReady) { toast("Firebase not configured", "error"); return; }
+
+  // Two-step confirmation since this is destructive and irreversible
+  if (!confirm("⚠️ WIPE ALL DATA?\n\nThis will permanently delete:\n• Every user account\n• Every prediction\n• Every bonus pick\n• Every match result\n• All admin config\n• All audit logs\n\nThe match schedule (104 games) will reload from the app code.\n\nThis CANNOT be undone. Continue?")) return;
+
+  const typed = prompt('Type "WIPE EVERYTHING" exactly to confirm:');
+  if (typed !== "WIPE EVERYTHING") {
+    toast("Cancelled — confirmation did not match", "error");
+    return;
+  }
+
+  toast("Wiping data... please wait", "success");
+
+  try {
+    // 1) Delete every user (and their subcollections: predictions + meta)
+    const usersSnap = await getDocs(collection(db, "users"));
+    let userCount = 0;
+    for (const userDoc of usersSnap.docs) {
+      // Delete predictions subcollection
+      const predsSnap = await getDocs(collection(db, "users", userDoc.id, "predictions"));
+      const predBatch = writeBatch(db);
+      predsSnap.forEach(d => predBatch.delete(d.ref));
+      if (!predsSnap.empty) await predBatch.commit();
+
+      // Delete meta subcollection (includes bonus picks)
+      const metaSnap = await getDocs(collection(db, "users", userDoc.id, "meta"));
+      const metaBatch = writeBatch(db);
+      metaSnap.forEach(d => metaBatch.delete(d.ref));
+      if (!metaSnap.empty) await metaBatch.commit();
+
+      // Delete the user doc itself
+      await deleteDoc(userDoc.ref);
+      userCount++;
+    }
+
+    // 2) Delete every match override
+    const matchesSnap = await getDocs(collection(db, "matches"));
+    if (!matchesSnap.empty) {
+      const mBatch = writeBatch(db);
+      matchesSnap.forEach(d => mBatch.delete(d.ref));
+      await mBatch.commit();
+    }
+
+    // 3) Delete config docs (officialBonus, candidates)
+    try { await deleteDoc(doc(db, "config", "officialBonus")); } catch {}
+    try { await deleteDoc(doc(db, "config", "candidates")); } catch {}
+
+    // 4) Delete every audit log entry (in chunks of 400 to stay under batch limit)
+    const auditSnap = await getDocs(collection(db, "auditLog"));
+    const auditDocs = auditSnap.docs;
+    for (let i = 0; i < auditDocs.length; i += 400) {
+      const aBatch = writeBatch(db);
+      auditDocs.slice(i, i + 400).forEach(d => aBatch.delete(d.ref));
+      await aBatch.commit();
+    }
+
+    toast(`✓ Wiped ${userCount} users + all match/config/audit data`, "success");
+
+    // 5) Force logout so we don't try to operate on a deleted user doc
+    setTimeout(() => {
+      state.unsubs.forEach(u => { try { u(); } catch {} });
+      state.unsubs = [];
+      localStorage.removeItem("quiniela_user");
+      window.location.reload();
+    }, 1500);
+  } catch (e) {
+    console.error(e);
+    toast("Wipe failed: " + e.message, "error");
+  }
+};
+
+// ============================================================================
+// RENDER ADMIN USERS — fully deduplicated, sorted alphabetically
+// ============================================================================
+function renderAdminUsers() {
+  const el = $("adminUsersList");
+  if (!el) return;
+
+  // Triple-defense dedupe: even if state.allUsers somehow has duplicates,
+  // this Map will collapse them by ID (most recent username wins).
+  const userMap = new Map();
+  for (const u of state.allUsers) {
+    if (u && u.id) userMap.set(u.id, u);
+  }
+  const uniqueUsers = Array.from(userMap.values());
+
+  // Sort: current user first, then alphabetical by username
+  uniqueUsers.sort((a, b) => {
+    if (a.id === state.user.id) return -1;
+    if (b.id === state.user.id) return 1;
+    const aName = (a.username || a.id || "").toLowerCase();
+    const bName = (b.username || b.id || "").toLowerCase();
+    return aName.localeCompare(bName);
+  });
+
+  if (uniqueUsers.length === 0) {
+    el.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:13px;">No users yet</div>`;
+    return;
+  }
+
+  el.innerHTML = uniqueUsers.map(u => {
+    const isMe = u.id === state.user.id;
+    // Admin is whoever's ID matches ADMIN_ID — single source of truth
+    const isAdminUser = u.id === ADMIN_ID;
+
+    return `
+      <div class="user-row">
+        <div class="user-info-row">
+          <span class="user-row-name">
+            ${sanitize(u.username || u.id)}
+            ${isAdminUser ? '<span style="color: var(--gold); font-size: 10px; margin-left: 6px;">⚡ ADMIN</span>' : ''}
+          </span>
+          <span class="user-row-id">${u.id}</span>
+        </div>
+        ${!isMe && !isAdminUser ? `
+          <button class="btn-admin danger" onclick="window.adminDeleteUser('${u.id}', '${sanitize(u.username || u.id).replace(/'/g, '&apos;')}')">Remove</button>
+        ` : `<span style="font-size: 11px; color: var(--gold);">${isMe ? 'You' : 'Admin'}</span>`}
+      </div>
+    `;
+  }).join("");
+}
+
+window.adminDeleteUser = async (userId, username) => {
+  if (!state.isAdmin) return;
+  // Can't remove the admin account
+  if (userId === ADMIN_ID) {
+    toast("Can't remove the admin account", "error");
+    return;
+  }
+  if (!confirm(`Remove user "${username}" and all their predictions? This cannot be undone.`)) return;
+
+  try {
+    const predsSnap = await getDocs(collection(db, "users", userId, "predictions"));
+    const batch = writeBatch(db);
+    predsSnap.forEach(d => batch.delete(d.ref));
+
+    const bonusRef = doc(db, "users", userId, "meta", "bonus");
+    batch.delete(bonusRef);
+
+    batch.delete(doc(db, "users", userId));
+
+    await batch.commit();
+    await setDoc(doc(collection(db, "auditLog")), {
+      action: "user_delete", userId, username,
+      admin: state.user.id, at: serverTimestamp()
+    });
+    toast(`✓ Removed ${username}`, "success");
+  } catch (e) {
+    toast("Delete failed: " + e.message, "error");
+  }
+};
+
+window.handleLogin = handleLogin;
+window.handleLogout = handleLogout;
+window.navigate = navigate;
+
+(async function init() {
+  const saved = localStorage.getItem("quiniela_user");
+  if (saved && fbReady) {
+    try {
+      const u = JSON.parse(saved);
+      const snap = await getDoc(doc(db, "users", u.id));
+      if (snap.exists()) {
+        const data = snap.data();
+        state.user = { id: u.id, username: data.username || u.id, ...data };
+        // Admin is determined by the User ID itself, not a stored flag
+        state.isAdmin = (u.id === ADMIN_ID);
+        await enterApp();
+        return;
+      }
+    } catch (e) {
+      console.error("Auto-login failed:", e);
+    }
+  }
+  showLogin();
+})();
+
+setInterval(() => {
+  if (currentPage === "dashboard" || currentPage === "matches") {
+    document.querySelectorAll(".countdown").forEach((el, i) => {});
+  }
+}, 30000);
+
+</script>
+
+</body>
+</html>
